@@ -13,4 +13,20 @@ public class Room extends AbstractModel {
     private String name;
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
 }
