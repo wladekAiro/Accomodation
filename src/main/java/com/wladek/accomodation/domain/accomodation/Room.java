@@ -10,6 +10,7 @@ import java.util.Set;
 /**
  * Created by wladek on 9/20/16.
  */
+@Entity
 public class Room extends AbstractModel {
     private String name;
     @Enumerated(EnumType.STRING)
