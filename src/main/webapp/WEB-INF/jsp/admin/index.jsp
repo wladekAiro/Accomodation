@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <jsp:include page="/WEB-INF/jsp/common/adminHeader.jsp">
-        <jsp:param name="title" value="PENSION"/>
+        <jsp:param name="title" value="EU"/>
     </jsp:include>
 </head>
 <jsp:include page="/WEB-INF/jsp/common/adminHead.jsp"/>
@@ -17,7 +17,7 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">PENSION ADMIN</h3>
+        <h3 class="box-title">HOSTEL ADMIN</h3>
         <div class="box-tools">
             <%--<div class="input-group">--%>
                 <%--<input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>--%>
@@ -27,7 +27,7 @@
             <%--</div>--%>
         </div>
     </div><!-- /.box-header -->
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body">
         <h3>Welcome To Admin Panel</h3>
     </div>
 </div>

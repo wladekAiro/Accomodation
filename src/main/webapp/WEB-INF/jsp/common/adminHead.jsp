@@ -299,25 +299,12 @@
             </li>
 
             <li>
-                <a href="/admin/users"><i class="fa fa-files-o"></i> <span>Manage Users</span></a>
+                <a href="/admin/zones"><i class="fa fa-files-o"></i> <span>Zones</span></a>
             </li>
 
             <li>
-                <a href="/admin/roles/home"><i class="fa fa-files-o"></i> <span>Roles</span></a>
+                <a href="/admin/hostels"><i class="fa fa-files-o"></i> <span>Hostels</span></a>
             </li>
-
-            <li>
-                <a href="/admin/pension/employers"><i class="fa fa-files-o"></i> <span>Manage employers</span></a>
-            </li>
-
-            <li>
-                <a href="#"><i class="fa fa-files-o"></i> <span>Manage Funds</span></a>
-            </li>
-
-            <li>
-                <a href="/admin/pension/investment"><i class="fa fa-files-o"></i> <span>Manage Investments</span></a>
-            </li>
-
         </ul>
     </section>
     <!-- /.sidebar -->
