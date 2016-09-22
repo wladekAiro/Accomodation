@@ -5,6 +5,6 @@ package com.wladek.accomodation.domain.enumeration;
  */
 public enum UserRole {
 
-    ADMIN, USER,EMPLOYEE;
+    ADMIN,STUDENT;
 
 }

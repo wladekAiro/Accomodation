@@ -1,11 +1,11 @@
 package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
+import com.wladek.accomodation.domain.User;
+import com.wladek.accomodation.domain.enumeration.BedStatus;
 import com.wladek.accomodation.domain.enumeration.BedType;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 /**
  * Created by wladek on 9/20/16.
@@ -15,6 +15,12 @@ public class Bed extends AbstractModel {
     private String number;
     @Enumerated(EnumType.STRING)
     private BedType bedType;
+    @Enumerated(EnumType.STRING)
+    private BedStatus status;
+    @ManyToOne
+    private Room room;
+    @OneToOne
+    private User student;
 
     public String getNumber() {
         return number;
@@ -30,5 +36,29 @@ public class Bed extends AbstractModel {
 
     public void setBedType(BedType bedType) {
         this.bedType = bedType;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
+    public BedStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BedStatus status) {
+        this.status = status;
     }
 }

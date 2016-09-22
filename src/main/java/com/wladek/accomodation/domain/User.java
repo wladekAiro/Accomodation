@@ -20,6 +20,7 @@
  */
 package com.wladek.accomodation.domain;
 
+import com.wladek.accomodation.domain.accomodation.Bed;
 import com.wladek.accomodation.domain.enumeration.UserRole;
 import com.wladek.accomodation.domain.enumeration.UserState;
 import org.hibernate.validator.constraints.Email;
@@ -62,6 +63,8 @@ public class User extends AbstractModel{
 
     @ManyToMany(mappedBy = "users")
     private Set<Role> roles;
+    @OneToOne(mappedBy = "student")
+    private Bed bed;
 
     public String getName() {
         return name;
@@ -135,4 +138,11 @@ public class User extends AbstractModel{
         this.roles = roles;
     }
 
+    public Bed getBed() {
+        return bed;
+    }
+
+    public void setBed(Bed bed) {
+        this.bed = bed;
+    }
 }
