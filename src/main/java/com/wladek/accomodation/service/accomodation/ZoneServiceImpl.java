@@ -34,7 +34,7 @@ public class ZoneServiceImpl implements ZoneService{
     public Zone update(Zone zone) {
         Zone zoneInDb = findById(zone.getId());
         zoneInDb.setName(zone.getName());
-        zoneInDb.setZone(zone.getZone());
+        zoneInDb.setCode(zone.getCode());
         return zoneRepo.save(zoneInDb);
     }
 

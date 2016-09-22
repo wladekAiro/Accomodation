@@ -14,8 +14,15 @@ import java.util.List;
 public class HostelServiceImpl implements HostelService {
     @Autowired
     HostelRepo hostelRepo;
+    @Autowired
+    ZoneService zoneService;
     @Override
     public Hostel create(Hostel hostel) {
+
+        if (hostel.getZoneId() != null){
+            hostel.setZone(zoneService.findById(hostel.getZoneId()));
+        }
+
         return hostelRepo.save(hostel);
     }
 

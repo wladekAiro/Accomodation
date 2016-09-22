@@ -1,5 +1,6 @@
 package com.wladek.accomodation.domain.accomodation;
 
+import com.wladek.accomodation.domain.AbstractModel;
 import com.wladek.accomodation.domain.User;
 
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.OneToOne;
  * Created by wladek on 9/22/16.
  */
 @Entity
-public class StudentProfile {
+public class StudentProfile extends AbstractModel {
     private String studentRegNo;
     private String faculty;
     private String department;

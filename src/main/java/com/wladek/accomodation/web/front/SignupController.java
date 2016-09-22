@@ -33,9 +33,10 @@ public class SignupController {
         if(result.hasErrors()) {
             return "/front/users/signupform";
         }
-        User newUser = userService.addNewUser(user);
-        userService.login(newUser);
-        return "redirect:/";
+
+        userService.addNewUser(user);
+
+        return "redirect:/users/loginform";
     }
 
 }

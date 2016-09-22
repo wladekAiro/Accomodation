@@ -2,11 +2,13 @@ package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
 import com.wladek.accomodation.domain.enumeration.ZoneCode;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,9 +17,10 @@ import java.util.Set;
  */
 @Entity
 public class Zone extends AbstractModel{
+    @NotEmpty(message = "Name must be provided")
     private String name;
-
-    private ZoneCode zone;
+    @NotEmpty(message = "Provide zone code")
+    private String code;
 
     @OneToMany(mappedBy = "zone" , fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Set<Hostel> hostels = new HashSet<>();
@@ -38,11 +41,11 @@ public class Zone extends AbstractModel{
         this.hostels = hostels;
     }
 
-    public ZoneCode getZone() {
-        return zone;
+    public String getCode() {
+        return code;
     }
 
-    public void setZone(ZoneCode zone) {
-        this.zone = zone;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

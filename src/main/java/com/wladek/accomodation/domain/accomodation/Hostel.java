@@ -2,8 +2,10 @@ package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
 import com.wladek.accomodation.domain.enumeration.Gender;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,9 +14,12 @@ import java.util.Set;
  */
 @Entity
 public class Hostel extends AbstractModel {
+    @NotEmpty(message = "Provide name")
     private String name;
+    @NotEmpty(message = "Provide code (e.g H08 )")
     private String code;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Select gender")
     private Gender gender;
     @ManyToOne
     private Zone zone;
@@ -59,5 +64,16 @@ public class Hostel extends AbstractModel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Transient
+    private Long zoneId;
+
+    public Long getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(Long zoneId) {
+        this.zoneId = zoneId;
     }
 }

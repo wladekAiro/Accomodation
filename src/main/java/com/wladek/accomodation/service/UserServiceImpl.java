@@ -1,6 +1,7 @@
 package com.wladek.accomodation.service;
 
 import com.wladek.accomodation.domain.User;
+import com.wladek.accomodation.domain.enumeration.UserRole;
 import com.wladek.accomodation.domain.enumeration.UserState;
 import com.wladek.accomodation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
     public User addNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserState(UserState.ACTIVE);
+        user.setUserRole(UserRole.STUDENT);
         User newUser = repository.save(user);
         return newUser;
     }
