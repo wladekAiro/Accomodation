@@ -1,4 +1,4 @@
-package com.wladek.accomodation.repository.pension;
+package com.wladek.accomodation.repository.accomodation;
 
 import com.wladek.accomodation.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;

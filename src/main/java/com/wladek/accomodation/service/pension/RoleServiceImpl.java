@@ -1,7 +1,7 @@
 package com.wladek.accomodation.service.pension;
 
 import com.wladek.accomodation.domain.Role;
-import com.wladek.accomodation.repository.pension.RoleRepository;
+import com.wladek.accomodation.repository.accomodation.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
