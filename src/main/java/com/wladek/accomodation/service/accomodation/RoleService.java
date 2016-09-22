@@ -1,4 +1,4 @@
-package com.wladek.accomodation.service.pension;
+package com.wladek.accomodation.service.accomodation;
 
 import com.wladek.accomodation.domain.Role;
 

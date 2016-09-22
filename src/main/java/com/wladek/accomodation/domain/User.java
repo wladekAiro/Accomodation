@@ -21,6 +21,7 @@
 package com.wladek.accomodation.domain;
 
 import com.wladek.accomodation.domain.accomodation.Bed;
+import com.wladek.accomodation.domain.accomodation.StudentProfile;
 import com.wladek.accomodation.domain.enumeration.UserRole;
 import com.wladek.accomodation.domain.enumeration.UserState;
 import org.hibernate.validator.constraints.Email;
@@ -63,8 +64,10 @@ public class User extends AbstractModel{
 
     @ManyToMany(mappedBy = "users")
     private Set<Role> roles;
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student" , fetch = FetchType.LAZY)
     private Bed bed;
+    @OneToOne(mappedBy = "student" , fetch = FetchType.LAZY , cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private StudentProfile profile;
 
     public String getName() {
         return name;
@@ -144,5 +147,13 @@ public class User extends AbstractModel{
 
     public void setBed(Bed bed) {
         this.bed = bed;
+    }
+
+    public StudentProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(StudentProfile profile) {
+        this.profile = profile;
     }
 }
