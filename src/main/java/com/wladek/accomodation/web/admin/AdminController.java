@@ -1,9 +1,11 @@
 package com.wladek.accomodation.web.admin;
 
+import com.wladek.accomodation.domain.accomodation.Block;
 import com.wladek.accomodation.domain.accomodation.Hostel;
 import com.wladek.accomodation.domain.accomodation.Zone;
 import com.wladek.accomodation.domain.enumeration.Gender;
 import com.wladek.accomodation.domain.enumeration.ZoneCode;
+import com.wladek.accomodation.service.accomodation.BlockService;
 import com.wladek.accomodation.service.accomodation.HostelService;
 import com.wladek.accomodation.service.accomodation.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class AdminController {
     ZoneService zoneService;
     @Autowired
     HostelService hostelService;
+    @Autowired
+    BlockService blockService;
 
     @RequestMapping(value = "/home" , method = RequestMethod.GET)
     public String home(Model model){
@@ -102,5 +106,38 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("content", newHostel.getName() + " hostel created");
 
         return "redirect:/admin/zones/view/"+hostel.getZoneId();
+    }
+
+    @RequestMapping(value = "/hostel/view/{hostelId}" , method = RequestMethod.GET)
+    public String viewHostel(@PathVariable("hostelId") Long hostelId  , Model model){
+        Hostel hostel = hostelService.findById(hostelId);
+        model.addAttribute("block" , new Block());
+        model.addAttribute("hostel" , hostel);
+
+        return "/admin/hostel/view";
+    }
+
+    @RequestMapping(value = "/block/createblock" , method = RequestMethod.POST)
+    public String createBlock(@ModelAttribute @Valid Block block , BindingResult result , RedirectAttributes redirectAttributes ,
+                             Model model){
+
+        if (result.hasErrors()){
+            Hostel hostel = hostelService.findById(block.getHostelId());
+            model.addAttribute("block" , block);
+            model.addAttribute("hostel" , hostel);
+
+            model.addAttribute("message", true);
+            model.addAttribute("content", "Form has errors");
+
+            return "/admin/hostel/view";
+
+        }
+
+        Block newBlock = blockService.create(block);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", newBlock.getName() + " block created");
+
+        return "redirect:/admin/hostel/view/"+block.getHostelId();
     }
 }

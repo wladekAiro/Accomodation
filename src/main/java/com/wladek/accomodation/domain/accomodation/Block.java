@@ -1,6 +1,7 @@
 package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,7 +12,9 @@ import java.util.Set;
  */
 @Entity
 public class Block extends AbstractModel {
+    @NotEmpty(message = "Provide block name")
     private String name;
+    @NotEmpty(message = "Provide block code")
     private String code;
     @ManyToOne
     private Hostel hostel;
@@ -48,5 +51,16 @@ public class Block extends AbstractModel {
 
     public void setRooms(Set<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    @Transient
+    private Long hostelId;
+
+    public Long getHostelId() {
+        return hostelId;
+    }
+
+    public void setHostelId(Long hostelId) {
+        this.hostelId = hostelId;
     }
 }

@@ -14,9 +14,12 @@ import java.util.List;
 public class BlockServiceImpl implements BlockService{
     @Autowired
     BlockRepo blockRepo;
+    @Autowired
+    HostelService hostelService;
 
     @Override
     public Block create(Block block) {
+        block.setHostel(hostelService.findById(block.getHostelId()));
         return blockRepo.save(block);
     }
 

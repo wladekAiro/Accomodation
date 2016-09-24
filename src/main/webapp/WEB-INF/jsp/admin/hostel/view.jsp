@@ -17,7 +17,7 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">${zone.name.toUpperCase()} ZONE MANAGEMENT</h3>
+        <h3 class="box-title">${hostel.name.toUpperCase()} HOSTEL MANAGEMENT</h3>
         <div class="box-tools">
             <div class="input-group">
                 <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
@@ -51,9 +51,9 @@
                             <h3>Hostels</h3>
                             <div class="table-responsive">
                                 <c:choose>
-                                    <c:when test="${empty zone.hostels}">
+                                    <c:when test="${empty hostel.blocks}">
                                         <div class="alert alert-war">
-                                            No hostels registered
+                                            No blocks registered
                                         </div>
                                     </c:when>
                                     <c:otherwise>
@@ -62,22 +62,22 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Code</th>
-
+                                                <th>Rooms</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach items="${zone.hostels}" var="hostel">
+                                            <c:forEach items="${hostel.blocks}" var="block">
                                                 <tr>
-                                                    <td>${hostel.name}</td>
-                                                    <td>${hostel.code}</td>
-                                                    <td>${hostel.gender.name()}</td>
+                                                    <td>${block.name}</td>
+                                                    <td>${block.code}</td>
+                                                    <td>${block.rooms.size()}</td>
                                                     <td>
-                                                        <a href="/admin/hostel/view/${zone.id}">View</a>
+                                                        <a href="/admin/block/view/${zone.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/hostel/delete/${zone.id}">Remove</a>
+                                                        <a href="/admin/block/delete/${zone.id}">Remove</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -91,7 +91,7 @@
                     <div style="margin-top: 50px">
                         <div class="box-body">
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
-                                        ADD HOSTEL
+                                        ADD BLOCK
                                     </button>
                         </div>
                     </div>
@@ -107,18 +107,18 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Register hostel</h4>
+                        <h4 class="modal-title" id="myModalLabel">Register Block</h4>
                     </div>
                     <div class="modal-body">
                         <div class="box">
                             <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-                                <form:form acceptCharset="UTF-8" action="/admin/zone/createhostel" method="post" modelAttribute="hostel" cssClass="form-horizontal" role="form">
+                                <form:form acceptCharset="UTF-8" action="/admin/block/createblock" method="post" modelAttribute="block" cssClass="form-horizontal" role="form">
                                     <div class="form-group">
                                         <label for="name" class="col-sm-3 control-label">Name</label>
                                         <div class="col-sm-9">
                                             <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Name of hostel" />
                                             <form:input path="id" id="id" type="hidden"/>
-                                            <form:input path="zoneId" id="zoneId" value="${zone.id}" type="hidden"/>
+                                            <form:input path="hostelId" id="hostelId" value="${hostel.id}" type="hidden"/>
                                             <form:errors path="name" cssClass="form-inline" />
                                         </div>
                                     </div>
@@ -127,15 +127,6 @@
                                         <div class="col-sm-9">
                                             <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Hostel code" />
                                             <form:errors path="code" cssClass="form-inline" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="gender" class="col-sm-3 control-label">Gender</label>
-                                        <div class="col-sm-9">
-                                            <form:select path="gender" id="gender" type="select" cssClass="form-control">
-                                                <form:options/>
-                                            </form:select>
-                                            <form:errors path="gender" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">
