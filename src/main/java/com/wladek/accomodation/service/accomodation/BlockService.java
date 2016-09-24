@@ -1,6 +1,8 @@
 package com.wladek.accomodation.service.accomodation;
 
 import com.wladek.accomodation.domain.accomodation.Block;
+import com.wladek.accomodation.domain.accomodation.Room;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,4 +15,5 @@ public interface BlockService {
     public List<Block> findAll();
     public Block update(Block block);
     public void delete(Block block);
+    public Page<Room> findRooms(Long blockId , int page , int size);
 }

@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 public class RoomServiceImpl implements RoomService {
     @Autowired
     RoomRepo roomRepo;
+    @Autowired
+    BlockService blockService;
 
     @Override
     public Room create(Room room) {
+        room.setBlock(blockService.findById(room.getBlockId()));
         return roomRepo.save(room);
     }
 

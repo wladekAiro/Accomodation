@@ -17,7 +17,7 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">${hostel.name.toUpperCase()} HOSTEL MANAGEMENT</h3>
+        <h3 class="box-title">${block.name.toUpperCase()} BLOCK MANAGEMENT</h3>
         <div class="box-tools">
             <div class="input-group">
                 <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
@@ -48,36 +48,36 @@
             </div>
             <div class="box-body">
                 <div class="col-sm-8">
-                            <h3>Blocks</h3>
+                            <h3>Rooms</h3>
                             <div class="table-responsive">
                                 <c:choose>
-                                    <c:when test="${empty hostel.blocks}">
+                                    <c:when test="${empty roomsPage.content}">
                                         <div class="alert alert-war">
-                                            No blocks registered
+                                            No rooms registered
                                         </div>
                                     </c:when>
                                     <c:otherwise>
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Rooms</th>
+                                                <th>Room #</th>
+                                                <th>Type</th>
+                                                <th>Beds</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach items="${hostel.blocks}" var="block">
+                                            <c:forEach items="${roomsPage.content}" var="room">
                                                 <tr>
-                                                    <td>${block.name}</td>
-                                                    <td>${block.code}</td>
-                                                    <td>${block.rooms.size()}</td>
+                                                    <td>${room.name}</td>
+                                                    <td>${room.roomType.name()}</td>
+                                                    <td>${room.beds.size()}</td>
                                                     <td>
-                                                        <a href="/admin/block/view/${block.id}">View</a>
+                                                        <a href="/admin/room/view/${room.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/block/delete/${block.id}">Remove</a>
+                                                        <a href="/admin/room/delete/${room.id}">Remove</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -91,7 +91,7 @@
                     <div style="margin-top: 50px">
                         <div class="box-body">
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
-                                        ADD BLOCK
+                                        ADD ROOM
                                     </button>
                         </div>
                     </div>
@@ -107,26 +107,28 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Register Block</h4>
+                        <h4 class="modal-title" id="myModalLabel">Register Room</h4>
                     </div>
                     <div class="modal-body">
                         <div class="box">
                             <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-                                <form:form acceptCharset="UTF-8" action="/admin/block/createblock" method="post" modelAttribute="block" cssClass="form-horizontal" role="form">
+                                <form:form acceptCharset="UTF-8" action="/admin/room/createroom" method="post" modelAttribute="room" cssClass="form-horizontal" role="form">
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-3 control-label">Name</label>
+                                        <label for="name" class="col-sm-3 control-label">Number</label>
                                         <div class="col-sm-9">
-                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Name of hostel" />
+                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Room number" />
                                             <form:input path="id" id="id" type="hidden"/>
-                                            <form:input path="hostelId" id="hostelId" value="${hostel.id}" type="hidden"/>
+                                            <form:input path="blockId" id="blockId" value="${block.id}" type="hidden"/>
                                             <form:errors path="name" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="code" class="col-sm-3 control-label">Code</label>
+                                        <label for="roomType" class="col-sm-3 control-label">Room type</label>
                                         <div class="col-sm-9">
-                                            <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Hostel code" />
-                                            <form:errors path="code" cssClass="form-inline" />
+                                            <form:select path="roomType" id="roomType" type="select" cssClass="form-control">
+                                                <form:options/>
+                                            </form:select>
+                                            <form:errors path="roomType" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">

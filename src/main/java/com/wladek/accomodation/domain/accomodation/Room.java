@@ -2,6 +2,7 @@ package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
 import com.wladek.accomodation.domain.enumeration.RoomType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
  */
 @Entity
 public class Room extends AbstractModel {
+    @NotEmpty(message = "Provide room number")
     private String name;
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
@@ -50,5 +52,16 @@ public class Room extends AbstractModel {
 
     public void setBeds(Set<Bed> beds) {
         this.beds = beds;
+    }
+
+    @Transient
+    private Long blockId;
+
+    public Long getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(Long blockId) {
+        this.blockId = blockId;
     }
 }
