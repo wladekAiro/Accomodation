@@ -1,6 +1,7 @@
 package com.wladek.accomodation.service.accomodation;
 
 import com.wladek.accomodation.domain.accomodation.Bed;
+import com.wladek.accomodation.domain.enumeration.BedStatus;
 import com.wladek.accomodation.repository.accomodation.BedRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,14 @@ import java.util.List;
 public class BedServiceImpl implements BedService{
     @Autowired
     BedRepo bedRepo;
+    @Autowired
+    RoomService roomService;
 
 
     @Override
     public Bed create(Bed bed) {
+        bed.setRoom(roomService.findById(bed.getRoomId()));
+        bed.setStatus(BedStatus.AVAILABLE);
         return bedRepo.save(bed);
     }
 

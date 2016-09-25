@@ -4,6 +4,7 @@ import com.wladek.accomodation.domain.AbstractModel;
 import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.enumeration.BedStatus;
 import com.wladek.accomodation.domain.enumeration.BedType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 public class Bed extends AbstractModel {
+    @NotEmpty(message = "Provide bed number")
     private String number;
     @Enumerated(EnumType.STRING)
     private BedType bedType;
@@ -60,5 +62,16 @@ public class Bed extends AbstractModel {
 
     public void setStatus(BedStatus status) {
         this.status = status;
+    }
+
+    @Transient
+    private Long roomId;
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }

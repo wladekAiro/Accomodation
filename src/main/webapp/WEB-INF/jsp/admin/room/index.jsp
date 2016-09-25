@@ -17,7 +17,7 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">${block.name.toUpperCase()} BLOCK MANAGEMENT</h3>
+        <h3 class="box-title">ZONES MANAGEMENT</h3>
         <div class="box-tools">
             <div class="input-group">
                 <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
@@ -48,45 +48,38 @@
             </div>
             <div class="box-body">
                 <div class="col-sm-8">
-                            <h3>Rooms</h3>
+                            <h3>Zones</h3>
                             <div class="table-responsive">
                                 <c:choose>
-                                    <c:when test="${empty roomsPage.content}">
+                                    <c:when test="${empty zoneList}">
                                         <div class="alert alert-war">
-                                            No rooms registered
+                                            No Zones registered
                                         </div>
                                     </c:when>
                                     <c:otherwise>
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                             <tr>
-                                                <th>Room #</th>
-                                                <th>Type</th>
-                                                <th>Beds</th>
+                                                <th>Name</th>
+                                                <th>Code</th>
+
                                                 <th></th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach items="${roomsPage.content}" var="room">
+                                            <c:forEach items="${zoneList}" var="zone">
                                                 <tr>
-                                                    <td>${room.name}</td>
-                                                    <td>${room.roomType.name()}</td>
-                                                    <td>${room.beds.size()}</td>
+                                                    <td>${zone.name}</td>
+                                                    <td>${zone.code}</td>
                                                     <td>
-                                                        <a href="/admin/room/view/${room.id}">View</a>
+                                                        <a href="/admin/zones/view/${zone.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/room/delete/${room.id}">Remove</a>
+                                                        <a href="/admin/zones/delete/${zone.id}">Remove</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
-                                            <tr>
-                                                <jsp:include page="/WEB-INF/jsp/common/pagination.jsp">
-                                                    <jsp:param name="paginatedRecord" value="roomsPage"/>
-                                                    <jsp:param name="url" value="${pagenatedUrl}"/>
-                                                </jsp:include>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </c:otherwise>
@@ -97,7 +90,7 @@
                     <div style="margin-top: 50px">
                         <div class="box-body">
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
-                                        ADD ROOM
+                                        ADD ZONE
                                     </button>
                         </div>
                     </div>
@@ -113,28 +106,25 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Register Room</h4>
+                        <h4 class="modal-title" id="myModalLabel">Register zone</h4>
                     </div>
                     <div class="modal-body">
                         <div class="box">
                             <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-                                <form:form acceptCharset="UTF-8" action="/admin/room/createroom" method="post" modelAttribute="room" cssClass="form-horizontal" role="form">
+                                <form:form acceptCharset="UTF-8" action="/admin/zone/createzone" method="post" modelAttribute="zone" cssClass="form-horizontal" role="form">
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-3 control-label">Number</label>
+                                        <label for="name" class="col-sm-3 control-label">Name</label>
                                         <div class="col-sm-9">
-                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Room number" />
+                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Name of zone" />
                                             <form:input path="id" id="id" type="hidden"/>
-                                            <form:input path="blockId" id="blockId" value="${block.id}" type="hidden"/>
                                             <form:errors path="name" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="roomType" class="col-sm-3 control-label">Room type</label>
+                                        <label for="code" class="col-sm-3 control-label">Code</label>
                                         <div class="col-sm-9">
-                                            <form:select path="roomType" id="roomType" type="select" cssClass="form-control">
-                                                <form:options/>
-                                            </form:select>
-                                            <form:errors path="roomType" cssClass="form-inline" />
+                                            <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Zone code" />
+                                            <form:errors path="code" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">

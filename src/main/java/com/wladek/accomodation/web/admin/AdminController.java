@@ -1,13 +1,7 @@
 package com.wladek.accomodation.web.admin;
 
-import com.wladek.accomodation.domain.accomodation.Block;
-import com.wladek.accomodation.domain.accomodation.Hostel;
-import com.wladek.accomodation.domain.accomodation.Room;
-import com.wladek.accomodation.domain.accomodation.Zone;
-import com.wladek.accomodation.service.accomodation.BlockService;
-import com.wladek.accomodation.service.accomodation.HostelService;
-import com.wladek.accomodation.service.accomodation.RoomService;
-import com.wladek.accomodation.service.accomodation.ZoneService;
+import com.wladek.accomodation.domain.accomodation.*;
+import com.wladek.accomodation.service.accomodation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -33,6 +27,8 @@ public class AdminController {
     BlockService blockService;
     @Autowired
     RoomService roomService;
+    @Autowired
+    BedService bedService;
 
     @RequestMapping(value = "/home" , method = RequestMethod.GET)
     public String home(Model model){
@@ -183,5 +179,40 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("content", "Room "+newRoom.getName() + " created");
 
         return "redirect:/admin/block/view/"+room.getBlockId()+"?page="+page+"&size="+size;
+    }
+
+    @RequestMapping(value = "/room/view/{roomId}" , method = RequestMethod.GET)
+    public String viewRom(@PathVariable("roomId") Long roomId  , Model model){
+        Room room = roomService.findById(roomId);
+        model.addAttribute("room" , room);
+        model.addAttribute("bed" , new Bed());
+
+
+        return "/admin/room/view";
+    }
+
+    @RequestMapping(value = "/room/createbed" , method = RequestMethod.POST)
+    public String createBed(@ModelAttribute @Valid Bed bed , BindingResult result ,
+                            RedirectAttributes redirectAttributes ,
+                             Model model){
+
+        if (result.hasErrors()){
+            Room room = roomService.findById(bed.getRoomId());
+            model.addAttribute("room" , room);
+            model.addAttribute("bed" , bed);
+
+            model.addAttribute("message", true);
+            model.addAttribute("content", "Form has errors");
+
+            return "/admin/room/view";
+
+        }
+
+        Bed newBed = bedService.create(bed);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", "Bed "+newBed.getNumber() + " created");
+
+        return "redirect:/admin/room/view/"+bed.getRoomId();
     }
 }
