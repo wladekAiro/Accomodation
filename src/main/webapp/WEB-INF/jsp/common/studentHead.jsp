@@ -5,11 +5,11 @@
 <div class="wrapper">
  <header class="main-header">
     <!-- Logo -->
-    <a href="/employee/home" class="logo">
+    <a href="/student/profile" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>E</b>P</span>
+        <span class="logo-mini"><b>S</b>P</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Employee</b>Portal</span>
+        <span class="logo-lg"><b>Student</b>Portal</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -21,10 +21,10 @@
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown messages-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success">4</span>
-                    </a>
+                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--%>
+                        <%--<i class="fa fa-envelope-o"></i>--%>
+                        <%--<span class="label label-success">4</span>--%>
+                    <%--</a>--%>
                     <%--<ul class="dropdown-menu">--%>
                         <%--<li class="header">You have 4 messages</li>--%>
                         <%--<li>--%>
@@ -224,27 +224,27 @@
                             <p>
                                 <sec:authorize access="isAuthenticated()">
                                     <sec:authentication property="principal" var="principal"/>
-                                    <span class="hidden-xs">${principal.user.loginId}</span>
+                                    <span class="hidden-xs">${principal.user.name}</span>
                                 </sec:authorize>
-                                <small>Member since Nov. 2012</small>
+                                <small>Member since Nov. 2016</small>
                             </p>
                         </li>
                         <!-- Menu Body -->
                         <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
+                            <%--<div class="col-xs-4 text-center">--%>
+                                <%--<a href="#">Followers</a>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-xs-4 text-center">--%>
+                                <%--<a href="#">Sales</a>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-xs-4 text-center">--%>
+                                <%--<a href="#">Friends</a>--%>
+                            <%--</div>--%>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="/student/profile" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="/users/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -274,7 +274,7 @@
                 <p>
                     <sec:authorize access="isAuthenticated()">
                         <sec:authentication property="principal" var="principal"/>
-                        <span class="hidden-xs">${principal.user.loginId}</span>
+                        <span class="hidden-xs">${principal.user.name}</span>
                     </sec:authorize>
                 </p>
 
@@ -295,11 +295,15 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li>
-                <a href="/employee/home"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a>
+                <a href="/student/profile"><i class="fa fa-tachometer"></i> <span>Profile</span></a>
             </li>
 
             <li>
-                <a href="/employee/inquiries/my-inquiries"><i class="fa fa-files-o"></i> <span>Inquiries</span></a>
+                <a href="/student/hostels"><i class="fa fa-files-o"></i> <span>Hostels</span></a>
+            </li>
+
+            <li>
+                <a href="/student/booking"><i class="fa fa-files-o"></i> <span>Booking</span></a>
             </li>
         </ul>
     </section>

@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/resources/images/favicon.ico">
 
-    <title>PENSION</title>
+    <title>EU</title>
 
     <!-- Bootstrap core CSS -->
     <link type="text/css" href="/resources/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -36,6 +36,14 @@
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Log in</h1>
+
+            <c:if test="${isFailed}">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <span class="red-text text-darken-2">Login failed due to ${SPRING_SECURITY_LAST_EXCEPTION.message}</span>
+                    </div>
+                </div>
+            </c:if>
 
             <form:form acceptCharset="UTF-8" action="/users/login" method="post" cssClass="form-horizontal" role="form">
                 <div class="form-group">

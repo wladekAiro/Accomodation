@@ -4,8 +4,10 @@ package com.wladek.accomodation.domain.enumeration;
  * Created by wladek on 9/20/16.
  */
 public enum RoomType {
+    SINGLE("Single"),
     DOUBLE("Double"),
-    SINGLE("Single");
+    TRIPLE("Triple"),
+    QUADRUPLE("Quadruple");
 
     String name;
 

@@ -5,6 +5,7 @@ import com.wladek.accomodation.domain.enumeration.RoomType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +20,8 @@ public class Room extends AbstractModel {
     private RoomType roomType;
     @ManyToOne
     private Block block;
+    @NotNull(message = "Provide cost of room")
+    private Long cost;
     @OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Set<Bed> beds = new HashSet<>();
 

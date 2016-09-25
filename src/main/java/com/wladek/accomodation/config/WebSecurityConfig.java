@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .rememberMe()
                 .key("accomodation")
-                .tokenValiditySeconds(12960)
+                .tokenValiditySeconds(1200)
                 .userDetailsService(userDetailsService())
                 .and()
             .authorizeRequests()

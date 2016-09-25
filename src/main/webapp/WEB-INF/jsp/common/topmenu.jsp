@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">PENSION</a>
+            <a class="navbar-brand" href="/">EGERTON UNIVERSITY STUDENTS ACCOMMODATION PORTAL</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -19,20 +19,10 @@
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <sec:authentication property="principal" var="principal" />
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">New<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Test</a></li>
-                            <li><a href="#">Group</a></li>
-                        </ul>
-                    </li>
                     <li><a href="#">${principal.user.name}</a></li>
                     <li><a href="/users/logout">Logout</a></li>
                 </sec:authorize>
             </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Search...">
-            </form>
         </div>
     </div>
 </div>
