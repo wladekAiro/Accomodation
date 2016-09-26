@@ -17,7 +17,7 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">ZONES MANAGEMENT</h3>
+        <h3 class="box-title">EGERTON HOSTELS</h3>
         <div class="box-tools">
             <div class="input-group">
                 <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
@@ -48,12 +48,12 @@
             </div>
             <div class="box-body">
                 <div class="col-sm-8">
-                            <h3>Zones</h3>
+                            <h3>Hostels</h3>
                             <div class="table-responsive">
                                 <c:choose>
-                                    <c:when test="${empty zoneList}">
+                                    <c:when test="${empty hostelList}">
                                         <div class="alert alert-war">
-                                            No Zones registered
+                                            No Hostels registered
                                         </div>
                                     </c:when>
                                     <c:otherwise>
@@ -62,21 +62,22 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Code</th>
-
+                                                <th>Zone</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach items="${zoneList}" var="zone">
+                                            <c:forEach items="${hostelList}" var="hostel">
                                                 <tr>
-                                                    <td>${zone.name}</td>
-                                                    <td>${zone.code}</td>
+                                                    <td>${hostel.name}</td>
+                                                    <td>${hostel.code}</td>
+                                                    <td>${hostel.zone.code}</td>
                                                     <td>
-                                                        <a href="/admin/zones/view/${zone.id}">View</a>
+                                                        <a href="/admin/hostel/view/${hostel.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/zones/delete/${zone.id}">Remove</a>
+                                                        <a href="#">Remove</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -87,59 +88,16 @@
                             </div>
                 </div>
                 <div class="col-sm-3">
-                    <div style="margin-top: 50px">
-                        <div class="box-body">
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
-                                        ADD ZONE
-                                    </button>
-                        </div>
+                    <%--<div style="margin-top: 50px">--%>
+                        <%--<div class="box-body">--%>
+                                    <%--<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">--%>
+                                        <%--ADD ZONE--%>
+                                    <%--</button>--%>
+                        <%--</div>--%>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<%--modal--%>
-<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Register zone</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="box">
-                            <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-                                <form:form acceptCharset="UTF-8" action="/admin/zone/createzone" method="post" modelAttribute="zone" cssClass="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="name" class="col-sm-3 control-label">Name</label>
-                                        <div class="col-sm-9">
-                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Name of zone" />
-                                            <form:input path="id" id="id" type="hidden"/>
-                                            <form:errors path="name" cssClass="form-inline" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="code" class="col-sm-3 control-label">Code</label>
-                                        <div class="col-sm-9">
-                                            <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Zone code" />
-                                            <form:errors path="code" cssClass="form-inline" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-10">
-                                            <input class="btn btn-success" type="submit" value="Submit">
-                                        </div>
-                                    </div>
-                                </form:form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
     </div>
 </div>
 <%--end body--%>

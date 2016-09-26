@@ -1,6 +1,7 @@
 package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
+import com.wladek.accomodation.domain.enumeration.Gender;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Block extends AbstractModel {
     private String name;
     @NotEmpty(message = "Provide block code")
     private String code;
+    private Gender gender;
     @ManyToOne
     private Hostel hostel;
     @OneToMany(mappedBy = "block" , fetch = FetchType.LAZY , cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
@@ -62,5 +64,13 @@ public class Block extends AbstractModel {
 
     public void setHostelId(Long hostelId) {
         this.hostelId = hostelId;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

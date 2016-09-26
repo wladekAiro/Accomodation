@@ -22,6 +22,7 @@ public class Room extends AbstractModel {
     private Block block;
     @NotNull(message = "Provide cost of room")
     private Long cost;
+    private int capacity;
     @OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Set<Bed> beds = new HashSet<>();
 
@@ -66,5 +67,21 @@ public class Room extends AbstractModel {
 
     public void setBlockId(Long blockId) {
         this.blockId = blockId;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 }

@@ -62,6 +62,8 @@
                                             <tr>
                                                 <th>Room #</th>
                                                 <th>Type</th>
+                                                <th>Capacity</th>
+                                                <th>Cost</th>
                                                 <th>Beds</th>
                                                 <th></th>
                                                 <th></th>
@@ -72,6 +74,8 @@
                                                 <tr>
                                                     <td>${room.name}</td>
                                                     <td>${room.roomType.name()}</td>
+                                                    <td>${room.capacity}</td>
+                                                    <td>${room.cost}</td>
                                                     <td>${room.beds.size()}</td>
                                                     <td>
                                                         <a href="/admin/room/view/${room.id}">View</a>
@@ -135,6 +139,25 @@
                                                 <form:options/>
                                             </form:select>
                                             <form:errors path="roomType" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cost" class="col-sm-3 control-label">Cost</label>
+                                        <div class="col-sm-9">
+                                            <form:input path="cost" id="name" type="text" cssClass="form-control" placeholder="Cost (KSH)" />
+                                            <form:errors path="cost" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="capacity" class="col-sm-3 control-label">Capacity</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="capacity" id="capacity" type="select" cssClass="form-control">
+                                                <form:option value="1">1</form:option>
+                                                <form:option value="2">2</form:option>
+                                                <form:option value="3">3</form:option>
+                                                <form:option value="4">4</form:option>
+                                            </form:select>
+                                            <form:errors path="capacity" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -113,6 +113,17 @@ public class AdminController {
         return "/admin/hostel/view";
     }
 
+    @RequestMapping(value = "/hostels/list" , method = RequestMethod.GET)
+    public String viewHostels(@RequestParam(value = "searchTerm" , required = false ,defaultValue = "null") String searchTerm,
+                              Model model){
+
+        List<Hostel> hostelList = hostelService.findAll();
+
+        model.addAttribute("hostelList" , hostelList);
+
+        return "/admin/hostel/index";
+    }
+
     @RequestMapping(value = "/block/createblock" , method = RequestMethod.POST)
     public String createBlock(@ModelAttribute @Valid Block block , BindingResult result , RedirectAttributes redirectAttributes ,
                              Model model){

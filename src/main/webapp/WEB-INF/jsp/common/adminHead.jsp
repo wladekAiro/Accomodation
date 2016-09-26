@@ -303,7 +303,10 @@
             </li>
 
             <li>
-                <a href="/admin/hostels"><i class="fa fa-files-o"></i> <span>Hostels</span></a>
+                <a href="/admin/hostels/list"><i class="fa fa-files-o"></i> <span>Hostels</span></a>
+            </li>
+            <li>
+                <a href="/admin/student/list"><i class="fa fa-files-o"></i> <span>Students</span></a>
             </li>
         </ul>
     </section>

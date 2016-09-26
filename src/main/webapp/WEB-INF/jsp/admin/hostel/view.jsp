@@ -130,6 +130,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label for="gender" class="col-sm-3 control-label">Gender</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="gender" id="roomType" type="select" cssClass="form-control">
+                                                <form:options/>
+                                            </form:select>
+                                            <form:errors path="gender" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-10">
                                             <input class="btn btn-success" type="submit" value="Submit">
                                         </div>
