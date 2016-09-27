@@ -1,6 +1,8 @@
 package com.wladek.accomodation.web.admin;
 
 import com.wladek.accomodation.domain.accomodation.*;
+import com.wladek.accomodation.domain.enumeration.ItemName;
+import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.service.accomodation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,33 +32,74 @@ public class AdminController {
     RoomService roomService;
     @Autowired
     BedService bedService;
+    @Autowired
+    ItemCostRepo itemCostRepo;
 
-    @RequestMapping(value = "/home" , method = RequestMethod.GET)
-    public String home(Model model){
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String home(Model model) {
+
+        List<RoomItemCost> roomItemCosts = itemCostRepo.findAll();
+
+        if (roomItemCosts.isEmpty()) {
+            roomItemCosts = new ArrayList<>();
+
+            RoomItemCost itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.BROOM);
+            roomItemCosts.add(itemCost);
+
+            itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.CURTAIN);
+            roomItemCosts.add(itemCost);
+
+            itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.DUSTBIN);
+            roomItemCosts.add(itemCost);
+
+            itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.BROOM);
+            roomItemCosts.add(itemCost);
+
+            itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.MATRES);
+            roomItemCosts.add(itemCost);
+
+            itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.TABLE);
+            roomItemCosts.add(itemCost);
+
+            itemCost = new RoomItemCost();
+            itemCost.setItemName(ItemName.CHAIR);
+            roomItemCosts.add(itemCost);
+
+
+            itemCostRepo.save(roomItemCosts);
+
+
+        }
 
         return "/admin/index";
     }
 
-    @RequestMapping(value = "/zones" , method = RequestMethod.GET)
-    public String zones(Model model){
+    @RequestMapping(value = "/zones", method = RequestMethod.GET)
+    public String zones(Model model) {
         List<Zone> zoneList = zoneService.findAll();
 
-        model.addAttribute("zoneList" , zoneList);
-        model.addAttribute("zoneList" , zoneList);
-        model.addAttribute("zone" , new Zone());
+        model.addAttribute("zoneList", zoneList);
+        model.addAttribute("zoneList", zoneList);
+        model.addAttribute("zone", new Zone());
 
         return "/admin/zone/index";
     }
 
-    @RequestMapping(value = "/zone/createzone" , method = RequestMethod.POST)
-    public String createZone(@ModelAttribute @Valid Zone zone , BindingResult result , RedirectAttributes redirectAttributes ,
-                             Model model){
+    @RequestMapping(value = "/zone/createzone", method = RequestMethod.POST)
+    public String createZone(@ModelAttribute @Valid Zone zone, BindingResult result, RedirectAttributes redirectAttributes,
+                             Model model) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             List<Zone> zoneList = zoneService.findAll();
 
-            model.addAttribute("zoneList" , zoneList);
-            model.addAttribute("zone" , zone);
+            model.addAttribute("zoneList", zoneList);
+            model.addAttribute("zone", zone);
 
             model.addAttribute("message", true);
             model.addAttribute("content", "Form has errors");
@@ -70,25 +114,25 @@ public class AdminController {
         return "redirect:/admin/zones";
     }
 
-    @RequestMapping(value = "/zones/view/{zoneId}" , method = RequestMethod.GET)
-    public String view(@PathVariable("zoneId") Long zoneId  , Model model){
+    @RequestMapping(value = "/zones/view/{zoneId}", method = RequestMethod.GET)
+    public String view(@PathVariable("zoneId") Long zoneId, Model model) {
         Zone zone = zoneService.findById(zoneId);
-        model.addAttribute("hostel" , new Hostel());
-        model.addAttribute("zone" , zone);
+        model.addAttribute("hostel", new Hostel());
+        model.addAttribute("zone", zone);
 
         return "/admin/zone/view";
     }
 
-    @RequestMapping(value = "/zone/createhostel" , method = RequestMethod.POST)
-    public String createHostel(@ModelAttribute @Valid Hostel hostel , BindingResult result , RedirectAttributes redirectAttributes ,
-                             Model model){
+    @RequestMapping(value = "/zone/createhostel", method = RequestMethod.POST)
+    public String createHostel(@ModelAttribute @Valid Hostel hostel, BindingResult result, RedirectAttributes redirectAttributes,
+                               Model model) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
 
             Zone zone = zoneService.findById(hostel.getZoneId());
 
-            model.addAttribute("hostel" , hostel);
-            model.addAttribute("zone" , zone);
+            model.addAttribute("hostel", hostel);
+            model.addAttribute("zone", zone);
 
             model.addAttribute("message", true);
             model.addAttribute("content", "Form has errors");
@@ -101,37 +145,37 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("message", true);
         redirectAttributes.addFlashAttribute("content", newHostel.getName() + " hostel created");
 
-        return "redirect:/admin/zones/view/"+hostel.getZoneId();
+        return "redirect:/admin/zones/view/" + hostel.getZoneId();
     }
 
-    @RequestMapping(value = "/hostel/view/{hostelId}" , method = RequestMethod.GET)
-    public String viewHostel(@PathVariable("hostelId") Long hostelId  , Model model){
+    @RequestMapping(value = "/hostel/view/{hostelId}", method = RequestMethod.GET)
+    public String viewHostel(@PathVariable("hostelId") Long hostelId, Model model) {
         Hostel hostel = hostelService.findById(hostelId);
-        model.addAttribute("block" , new Block());
-        model.addAttribute("hostel" , hostel);
+        model.addAttribute("block", new Block());
+        model.addAttribute("hostel", hostel);
 
         return "/admin/hostel/view";
     }
 
-    @RequestMapping(value = "/hostels/list" , method = RequestMethod.GET)
-    public String viewHostels(@RequestParam(value = "searchTerm" , required = false ,defaultValue = "null") String searchTerm,
-                              Model model){
+    @RequestMapping(value = "/hostels/list", method = RequestMethod.GET)
+    public String viewHostels(@RequestParam(value = "searchTerm", required = false, defaultValue = "null") String searchTerm,
+                              Model model) {
 
         List<Hostel> hostelList = hostelService.findAll();
 
-        model.addAttribute("hostelList" , hostelList);
+        model.addAttribute("hostelList", hostelList);
 
         return "/admin/hostel/index";
     }
 
-    @RequestMapping(value = "/block/createblock" , method = RequestMethod.POST)
-    public String createBlock(@ModelAttribute @Valid Block block , BindingResult result , RedirectAttributes redirectAttributes ,
-                             Model model){
+    @RequestMapping(value = "/block/createblock", method = RequestMethod.POST)
+    public String createBlock(@ModelAttribute @Valid Block block, BindingResult result, RedirectAttributes redirectAttributes,
+                              Model model) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             Hostel hostel = hostelService.findById(block.getHostelId());
-            model.addAttribute("block" , block);
-            model.addAttribute("hostel" , hostel);
+            model.addAttribute("block", block);
+            model.addAttribute("hostel", hostel);
 
             model.addAttribute("message", true);
             model.addAttribute("content", "Form has errors");
@@ -145,37 +189,38 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("message", true);
         redirectAttributes.addFlashAttribute("content", newBlock.getName() + " block created");
 
-        return "redirect:/admin/hostel/view/"+block.getHostelId();
+        return "redirect:/admin/hostel/view/" + block.getHostelId();
     }
 
-    @RequestMapping(value = "/block/view/{blockId}" , method = RequestMethod.GET)
-    public String viewBlock(@PathVariable("blockId") Long blockId  ,
-                            @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
-                            @RequestParam(value = "size" , required = false , defaultValue = "5") int size, Model model){
+    @RequestMapping(value = "/block/view/{blockId}", method = RequestMethod.GET)
+    public String viewBlock(@PathVariable("blockId") Long blockId,
+                            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                            @RequestParam(value = "size", required = false, defaultValue = "5") int size, Model model) {
         Block block = blockService.findById(blockId);
-        Page<Room> roomsPage = blockService.findRooms(blockId , page ,size);
-        model.addAttribute("block" , block);
-        model.addAttribute("roomsPage" , roomsPage);
-        model.addAttribute("room" , new Room());
-        model.addAttribute("pagenatedUrl" , "/admin/block/view/"+blockId);
+        Page<Room> roomsPage = blockService.findRooms(blockId, page, size);
+        model.addAttribute("block", block);
+        model.addAttribute("roomsPage", roomsPage);
+        model.addAttribute("room", new Room());
+        model.addAttribute("pagenatedUrl", "/admin/block/view/" + blockId);
 
 
         return "/admin/block/view";
     }
 
-    @RequestMapping(value = "/room/createroom" , method = RequestMethod.POST)
-    public String createRoom(@ModelAttribute @Valid Room room , BindingResult result ,
-                             @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
-                             @RequestParam(value = "size" , required = false , defaultValue = "15") int size,RedirectAttributes redirectAttributes ,
-                              Model model){
+    @RequestMapping(value = "/room/createroom", method = RequestMethod.POST)
+    public String createRoom(@ModelAttribute @Valid Room room, BindingResult result,
+                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                             @RequestParam(value = "size", required = false, defaultValue = "15") int size, RedirectAttributes redirectAttributes,
+                             Model model) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             Block block = blockService.findById(room.getBlockId());
-            Page<Room> roomsPage = blockService.findRooms(room.getBlockId() , page ,size);
-            model.addAttribute("block" , block);
-            model.addAttribute("roomsPage" , roomsPage);
-            model.addAttribute("room" , room);
-            model.addAttribute("pagenatedUrl" , "/admin/block/view/"+room.getBlockId());;
+            Page<Room> roomsPage = blockService.findRooms(room.getBlockId(), page, size);
+            model.addAttribute("block", block);
+            model.addAttribute("roomsPage", roomsPage);
+            model.addAttribute("room", room);
+            model.addAttribute("pagenatedUrl", "/admin/block/view/" + room.getBlockId());
+            ;
 
             model.addAttribute("message", true);
             model.addAttribute("content", "Form has errors");
@@ -187,30 +232,30 @@ public class AdminController {
         Room newRoom = roomService.create(room);
 
         redirectAttributes.addFlashAttribute("message", true);
-        redirectAttributes.addFlashAttribute("content", "Room "+newRoom.getName() + " created");
+        redirectAttributes.addFlashAttribute("content", "Room " + newRoom.getName() + " created");
 
-        return "redirect:/admin/block/view/"+room.getBlockId()+"?page="+page+"&size="+size;
+        return "redirect:/admin/block/view/" + room.getBlockId() + "?page=" + page + "&size=" + size;
     }
 
-    @RequestMapping(value = "/room/view/{roomId}" , method = RequestMethod.GET)
-    public String viewRom(@PathVariable("roomId") Long roomId  , Model model){
+    @RequestMapping(value = "/room/view/{roomId}", method = RequestMethod.GET)
+    public String viewRom(@PathVariable("roomId") Long roomId, Model model) {
         Room room = roomService.findById(roomId);
-        model.addAttribute("room" , room);
-        model.addAttribute("bed" , new Bed());
+        model.addAttribute("room", room);
+        model.addAttribute("bed", new Bed());
 
 
         return "/admin/room/view";
     }
 
-    @RequestMapping(value = "/room/createbed" , method = RequestMethod.POST)
-    public String createBed(@ModelAttribute @Valid Bed bed , BindingResult result ,
-                            RedirectAttributes redirectAttributes ,
-                             Model model){
+    @RequestMapping(value = "/room/createbed", method = RequestMethod.POST)
+    public String createBed(@ModelAttribute @Valid Bed bed, BindingResult result,
+                            RedirectAttributes redirectAttributes,
+                            Model model) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             Room room = roomService.findById(bed.getRoomId());
-            model.addAttribute("room" , room);
-            model.addAttribute("bed" , bed);
+            model.addAttribute("room", room);
+            model.addAttribute("bed", bed);
 
             model.addAttribute("message", true);
             model.addAttribute("content", "Form has errors");
@@ -222,8 +267,55 @@ public class AdminController {
         Bed newBed = bedService.create(bed);
 
         redirectAttributes.addFlashAttribute("message", true);
-        redirectAttributes.addFlashAttribute("content", "Bed "+newBed.getNumber() + " created");
+        redirectAttributes.addFlashAttribute("content", "Bed " + newBed.getNumber() + " created");
 
-        return "redirect:/admin/room/view/"+bed.getRoomId();
+        return "redirect:/admin/room/view/" + bed.getRoomId();
+    }
+
+    @RequestMapping(value = "/hostels/roomitems", method = RequestMethod.GET)
+    public String roomItems(@RequestParam(value = "val", required = false, defaultValue = "0") Long val,
+                            @RequestParam(value = "flag", required = false, defaultValue = "false") boolean flag, Model model) {
+
+        List<RoomItemCost> itemCosts = itemCostRepo.findAll();
+
+        if (flag) {
+            RoomItemCost roomItemCost = itemCostRepo.findOne(val);
+
+            model.addAttribute("flag", flag);
+
+            model.addAttribute("itemCost", roomItemCost);
+        }
+
+        model.addAttribute("itemCosts", itemCosts);
+
+        return "/admin/hostel/items";
+    }
+
+    @RequestMapping(value = "/hostel/itemcostupdate", method = RequestMethod.POST)
+    public String updateItemCost(@ModelAttribute @Valid RoomItemCost itemCost, BindingResult result,
+                                 RedirectAttributes redirectAttributes, Model model) {
+
+        if (result.hasErrors()) {
+            List<RoomItemCost> itemCosts = itemCostRepo.findAll();
+
+            model.addAttribute("flag", true);
+            model.addAttribute("itemCost", itemCost);
+            model.addAttribute("itemCosts", itemCosts);
+
+            model.addAttribute("message", true);
+            model.addAttribute("content", "Provide item cost");
+
+            return "/admin/hostel/items";
+        }
+
+        RoomItemCost roomItemCostInDb = itemCostRepo.findOne(itemCost.getId());
+        roomItemCostInDb.setUnitCost(itemCost.getUnitCost());
+
+        roomItemCostInDb = itemCostRepo.save(roomItemCostInDb);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", roomItemCostInDb.getItemName() + " cost updated ");
+
+        return "redirect:/admin/hostels/roomitems";
     }
 }

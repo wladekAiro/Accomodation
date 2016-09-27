@@ -306,6 +306,9 @@
                 <a href="/admin/hostels/list"><i class="fa fa-files-o"></i> <span>Hostels</span></a>
             </li>
             <li>
+                <a href="/admin/hostels/roomitems"><i class="fa fa-files-o"></i> <span>Room Items</span></a>
+            </li>
+            <li>
                 <a href="/admin/student/list"><i class="fa fa-files-o"></i> <span>Students</span></a>
             </li>
         </ul>
