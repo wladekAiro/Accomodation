@@ -74,4 +74,8 @@ public class Bed extends AbstractModel {
     public void setRoomId(Long roomId) {
         this.roomId = roomId;
     }
+
+    public boolean myBed(Long userId){
+        return (userId == student.getId());
+    }
 }

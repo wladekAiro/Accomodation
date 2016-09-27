@@ -13,5 +13,7 @@ public interface UserService {
 
     void login(User user);
 
+    User findById(Long id);
+
     public List<User> findAll();
 }

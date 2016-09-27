@@ -1,23 +1,31 @@
 package com.wladek.accomodation.service.accomodation;
 
+import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.accomodation.Bed;
 import com.wladek.accomodation.domain.accomodation.Room;
 import com.wladek.accomodation.domain.enumeration.BedStatus;
 import com.wladek.accomodation.repository.accomodation.BedRepo;
+import com.wladek.accomodation.service.UserDetailsImpl;
+import com.wladek.accomodation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by wladek on 9/22/16.
  */
 @Service
+@Transactional
 public class BedServiceImpl implements BedService{
     @Autowired
     BedRepo bedRepo;
     @Autowired
     RoomService roomService;
+    @Autowired
+    UserService userService;
 
 
     @Override
@@ -57,4 +65,43 @@ public class BedServiceImpl implements BedService{
     public void delete(Bed bed) {
 
     }
+
+    @Override
+    public String bookBed(Bed bed) {
+
+        String result = null;
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+
+        User student = userService.findById(userDetails.getUser().getId());
+
+        Bed studentBed = null;
+
+        if (student.getBed() != null){
+            studentBed = student.getBed();
+            if (studentBed.getStatus() == BedStatus.BOOKED){
+                return "You have already booked for a bed , cancel your previous booking to continue";
+            }else if (studentBed.getStatus() == BedStatus.OCCUPIED){
+                return "You have already occupied a bed";
+            }
+        }else {
+            if (bed.getStatus() == BedStatus.BOOKED){
+                return "This bed has been booked";
+            }else if(bed.getStatus() == BedStatus.OCCUPIED){
+                return "This bead is already occupied";
+            }else {
+
+                bed.setStatus(BedStatus.BOOKED);
+                bed.setStudent(student);
+
+                bedRepo.save(bed);
+
+                result = "Booking was successful";
+            }
+        }
+
+        return result;
+    }
+
 }

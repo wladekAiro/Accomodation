@@ -1,11 +1,10 @@
 package com.wladek.accomodation.web.student;
 
-import com.wladek.accomodation.domain.accomodation.Block;
-import com.wladek.accomodation.domain.accomodation.Hostel;
-import com.wladek.accomodation.domain.accomodation.Room;
-import com.wladek.accomodation.domain.accomodation.StudentProfile;
+import com.wladek.accomodation.domain.accomodation.*;
+import com.wladek.accomodation.service.accomodation.BedService;
 import com.wladek.accomodation.service.accomodation.BlockService;
 import com.wladek.accomodation.service.accomodation.HostelService;
+import com.wladek.accomodation.service.accomodation.RoomService;
 import com.wladek.accomodation.service.student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +29,10 @@ public class StudentController {
     HostelService hostelService;
     @Autowired
     BlockService blockService;
+    @Autowired
+    BedService bedService;
+    @Autowired
+    RoomService roomService;
 
     @RequestMapping(value = "/profile" , method = RequestMethod.GET)
     public String loadProfile(Model model){
@@ -124,5 +127,30 @@ public class StudentController {
 
 
         return "/student/hostel/block";
+    }
+
+    @RequestMapping(value = "/room/{roomId}" , method = RequestMethod.GET)
+    public String viewRoom(@PathVariable("roomId") Long roomId, Model model){
+
+        Room room = roomService.findById(roomId);
+        model.addAttribute("room" , room);
+        return "/student/hostel/room";
+    }
+
+    @RequestMapping(value = "/room/bed/{bedId}" , method = RequestMethod.GET)
+    public String bookBed(@PathVariable("bedId") Long bedId, @RequestParam("flag") boolean book , Model model){
+
+        Bed bed = bedService.findOne(bedId);
+
+        String bookBed = bedService.bookBed(bed);
+
+        Room room = bed.getRoom();
+
+        model.addAttribute("room" , room);
+        model.addAttribute("book" , book);
+        model.addAttribute("content" , bookBed);
+        model.addAttribute("message", true);
+
+        return "/student/hostel/room";
     }
 }

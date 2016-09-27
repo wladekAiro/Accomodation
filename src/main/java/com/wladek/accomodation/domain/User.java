@@ -21,6 +21,7 @@
 package com.wladek.accomodation.domain;
 
 import com.wladek.accomodation.domain.accomodation.Bed;
+import com.wladek.accomodation.domain.accomodation.RoomItem;
 import com.wladek.accomodation.domain.accomodation.StudentProfile;
 import com.wladek.accomodation.domain.enumeration.UserRole;
 import com.wladek.accomodation.domain.enumeration.UserState;
@@ -29,6 +30,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -68,6 +70,8 @@ public class User extends AbstractModel{
     private Bed bed;
     @OneToOne(mappedBy = "student" , fetch = FetchType.LAZY , cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private StudentProfile profile;
+    @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<RoomItem> roomItems;
 
     public String getName() {
         return name;
@@ -155,5 +159,13 @@ public class User extends AbstractModel{
 
     public void setProfile(StudentProfile profile) {
         this.profile = profile;
+    }
+
+    public List<RoomItem> getRoomItems() {
+        return roomItems;
+    }
+
+    public void setRoomItems(List<RoomItem> roomItems) {
+        this.roomItems = roomItems;
     }
 }

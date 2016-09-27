@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Room extends AbstractModel {
     private Long cost;
     private int capacity;
     @OneToMany(mappedBy = "room",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    private Set<Bed> beds = new HashSet<>();
+    private List<Bed> beds = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -52,11 +53,11 @@ public class Room extends AbstractModel {
         this.block = block;
     }
 
-    public Set<Bed> getBeds() {
+    public List<Bed> getBeds() {
         return beds;
     }
 
-    public void setBeds(Set<Bed> beds) {
+    public void setBeds(List<Bed> beds) {
         this.beds = beds;
     }
 
@@ -87,7 +88,7 @@ public class Room extends AbstractModel {
         this.capacity = capacity;
     }
 
-    public String status(Set<Bed> bedList , int roomCapacity){
+    public String status(List<Bed> bedList , int roomCapacity){
         String status = "";
         int spaceAvailable = 0;
 

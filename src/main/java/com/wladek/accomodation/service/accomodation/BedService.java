@@ -13,4 +13,5 @@ public interface BedService {
     public List<Bed> findAll();
     public Bed update(Bed bed);
     public void delete(Bed bed);
+    public String bookBed(Bed bed);
 }

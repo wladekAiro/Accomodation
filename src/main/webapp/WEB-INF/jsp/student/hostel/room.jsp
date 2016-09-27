@@ -64,7 +64,6 @@
                                                 <th>Type</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
-                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -74,10 +73,23 @@
                                                     <td>${bed.bedType.name()}</td>
                                                     <td>${bed.status.name()}</td>
                                                     <td>
-                                                        <a href="#">View</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#">Remove</a>
+                                                        <sec:authorize access="isAuthenticated()">
+                                                            <sec:authentication property="principal" var="principal" />
+                                                            <c:choose>
+                                                                <c:when test="${bed.status == 'BOOKED'}">
+                                                                    <c:choose>
+                                                                        <c:when test="${bed.myBed(principal.user.id)}">
+                                                                            <a class="btn-sm btn-primary btn-danger"
+                                                                               href="/student/room/bed/${bed.id}?flag=true">Cancel</a>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a class="btn-sm btn-primary"
+                                                                       href="/student/room/bed/${bed.id}?flag=true">Book</a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </sec:authorize>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -96,9 +108,15 @@
                 <div class="col-sm-3">
                     <div style="margin-top: 50px">
                         <div class="box-body">
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
-                                        ADD BED
-                                    </button>
+                            <c:choose>
+                                <c:when test="${book != null}">
+                                    <c:choose>
+                                        <c:when test="${book == true}">
+
+                                        </c:when>
+                                    </c:choose>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
@@ -108,50 +126,50 @@
 </div>
 
 <%--modal--%>
-<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Register Bed</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="box">
-                            <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-                                <form:form acceptCharset="UTF-8" action="/admin/room/createbed" method="post" modelAttribute="bed" cssClass="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="number" class="col-sm-3 control-label">Number</label>
-                                        <div class="col-sm-9">
-                                            <form:input path="number" id="number" type="text" cssClass="form-control" placeholder="Bed number" />
-                                            <form:input path="id" id="id" type="hidden"/>
-                                            <form:input path="roomId" id="roomId" value="${room.id}" type="hidden"/>
-                                            <form:errors path="number" cssClass="form-inline" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="bedType" class="col-sm-3 control-label">Bed type</label>
-                                        <div class="col-sm-9">
-                                            <form:select path="bedType" id="bedType" type="select" cssClass="form-control">
-                                                <form:options/>
-                                            </form:select>
-                                            <form:errors path="bedType" cssClass="form-inline" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-10">
-                                            <input class="btn btn-success" type="submit" value="Submit">
-                                        </div>
-                                    </div>
-                                </form:form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-    </div>
-</div>
+<%--<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">--%>
+    <%--<div class="modal-dialog" role="document">--%>
+                <%--<div class="modal-content">--%>
+                    <%--<div class="modal-header">--%>
+                        <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--%>
+                        <%--<h4 class="modal-title" id="myModalLabel">Register Bed</h4>--%>
+                    <%--</div>--%>
+                    <%--<div class="modal-body">--%>
+                        <%--<div class="box">--%>
+                            <%--<div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">--%>
+                                <%--<form:form acceptCharset="UTF-8" action="/admin/room/createbed" method="post" modelAttribute="bed" cssClass="form-horizontal" role="form">--%>
+                                    <%--<div class="form-group">--%>
+                                        <%--<label for="number" class="col-sm-3 control-label">Number</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<form:input path="number" id="number" type="text" cssClass="form-control" placeholder="Bed number" />--%>
+                                            <%--<form:input path="id" id="id" type="hidden"/>--%>
+                                            <%--<form:input path="roomId" id="roomId" value="${room.id}" type="hidden"/>--%>
+                                            <%--<form:errors path="number" cssClass="form-inline" />--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="form-group">--%>
+                                        <%--<label for="bedType" class="col-sm-3 control-label">Bed type</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<form:select path="bedType" id="bedType" type="select" cssClass="form-control">--%>
+                                                <%--<form:options/>--%>
+                                            <%--</form:select>--%>
+                                            <%--<form:errors path="bedType" cssClass="form-inline" />--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="form-group">--%>
+                                        <%--<div class="col-sm-offset-3 col-sm-10">--%>
+                                            <%--<input class="btn btn-success" type="submit" value="Submit">--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</form:form>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="modal-footer">--%>
+                        <%--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
 <%--end body--%>
 <!-- start of footer section -->
 
