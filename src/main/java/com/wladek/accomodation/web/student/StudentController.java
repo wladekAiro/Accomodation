@@ -1,17 +1,22 @@
 package com.wladek.accomodation.web.student;
 
+import com.wladek.accomodation.domain.accomodation.Block;
+import com.wladek.accomodation.domain.accomodation.Hostel;
+import com.wladek.accomodation.domain.accomodation.Room;
 import com.wladek.accomodation.domain.accomodation.StudentProfile;
+import com.wladek.accomodation.service.accomodation.BlockService;
+import com.wladek.accomodation.service.accomodation.HostelService;
 import com.wladek.accomodation.service.student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by wladek on 9/25/16.
@@ -21,6 +26,10 @@ import javax.validation.Valid;
 public class StudentController {
     @Autowired
     StudentService studentService;
+    @Autowired
+    HostelService hostelService;
+    @Autowired
+    BlockService blockService;
 
     @RequestMapping(value = "/profile" , method = RequestMethod.GET)
     public String loadProfile(Model model){
@@ -82,5 +91,38 @@ public class StudentController {
         redirectAttributes.addFlashAttribute("content" , "Profile updated");
 
         return "redirect:/student/profile";
+    }
+
+    @RequestMapping(value = "/hostels" , method = RequestMethod.GET)
+    public String viewHostels(@RequestParam(value = "searchTerm" , required = false ,defaultValue = "null") String searchTerm,
+                              Model model){
+
+        List<Hostel> hostelList = hostelService.findAll();
+
+        model.addAttribute("hostelList" , hostelList);
+
+        return "/student/hostel/list";
+    }
+
+    @RequestMapping(value = "/hostel/{hostelId}" , method = RequestMethod.GET)
+    public String viewHostel(@PathVariable("hostelId") Long hostelId  , Model model){
+        Hostel hostel = hostelService.findById(hostelId);
+        model.addAttribute("hostel" , hostel);
+
+        return "/student/hostel/hostelview";
+    }
+
+    @RequestMapping(value = "/hostels/block/{blockId}" , method = RequestMethod.GET)
+    public String viewBlock(@PathVariable("blockId") Long blockId  ,
+                            @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                            @RequestParam(value = "size" , required = false , defaultValue = "10") int size, Model model){
+        Block block = blockService.findById(blockId);
+        Page<Room> roomsPage = blockService.findRooms(blockId , page ,size);
+        model.addAttribute("block" , block);
+        model.addAttribute("roomsPage" , roomsPage);
+        model.addAttribute("pagenatedUrl" , "/student/hostel/block/"+blockId);
+
+
+        return "/student/hostel/block";
     }
 }

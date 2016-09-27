@@ -1,12 +1,14 @@
 package com.wladek.accomodation.domain.accomodation;
 
 import com.wladek.accomodation.domain.AbstractModel;
+import com.wladek.accomodation.domain.enumeration.BedStatus;
 import com.wladek.accomodation.domain.enumeration.RoomType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -83,5 +85,28 @@ public class Room extends AbstractModel {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public String status(Set<Bed> bedList , int roomCapacity){
+        String status = "";
+        int spaceAvailable = 0;
+
+        for (Bed bed : bedList){
+            if (bed.getStatus() == BedStatus.AVAILABLE){
+                spaceAvailable = spaceAvailable + 1;
+            }
+        }
+
+        if (spaceAvailable == 0){
+            status = "Full";
+        }else {
+            status = spaceAvailable+" beds available";
+        }
+
+        return status;
+    }
+
+    public boolean capacityExceeded(){
+        return (capacity <= beds.size());
     }
 }
