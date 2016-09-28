@@ -18,12 +18,17 @@ public class UserValidator {
     public boolean validateNewUser(User user, BindingResult result) {
         User existingUser = repository.findByEmail(user.getEmail());
         if(existingUser != null) {
-            result.rejectValue("email", "user.email.duplicate", "user.email.duplicate");
+            result.rejectValue("email", "user.email.duplicate", "Email already registered.");
         }
 
         existingUser = repository.findByLoginId(user.getLoginId());
         if(existingUser != null) {
-            result.rejectValue("loginId", "user.loginId.duplicate", "user.loginId.duplicate");
+            result.rejectValue("loginId", "user.loginId.duplicate", "Username already registered.");
+        }
+
+        if (!user.getPassword().equals(user.getConfirmPassword())){
+            result.rejectValue("password", "user.password.duplicate", "Password and confirm password do not match");
+            result.rejectValue("confirmPassword", "user.confirmPassword.duplicate", "Password and confirm password do not match");
         }
 
         return result.hasErrors();

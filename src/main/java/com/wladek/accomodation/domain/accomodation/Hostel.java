@@ -18,9 +18,6 @@ public class Hostel extends AbstractModel {
     private String name;
     @NotEmpty(message = "Provide code (e.g H08 )")
     private String code;
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Select gender")
-    private Gender gender;
     @ManyToOne
     private Zone zone;
     @OneToMany(mappedBy = "hostel" , fetch = FetchType.LAZY , cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
@@ -32,14 +29,6 @@ public class Hostel extends AbstractModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 
     public Zone getZone() {

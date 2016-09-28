@@ -1,6 +1,7 @@
 package com.wladek.accomodation.service.accomodation;
 
 import com.wladek.accomodation.domain.accomodation.Bed;
+import com.wladek.accomodation.domain.accomodation.RoomItem;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface BedService {
     public Bed update(Bed bed);
     public void delete(Bed bed);
     public String bookBed(Bed bed);
+    public Bed getStudentBed();
+    public List<RoomItem> getStudentRoomItems(boolean getAll);
 }

@@ -21,10 +21,10 @@
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown messages-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success">4</span>
-                    </a>
+                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--%>
+                        <%--<i class="fa fa-envelope-o"></i>--%>
+                        <%--<span class="label label-success">4</span>--%>
+                    <%--</a>--%>
                     <%--<ul class="dropdown-menu">--%>
                         <%--<li class="header">You have 4 messages</li>--%>
                         <%--<li>--%>
@@ -230,17 +230,17 @@
                             </p>
                         </li>
                         <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
-                        </li>
+                        <%--<li class="user-body">--%>
+                            <%--<div class="col-xs-4 text-center">--%>
+                                <%--<a href="#">Followers</a>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-xs-4 text-center">--%>
+                                <%--<a href="#">Sales</a>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-xs-4 text-center">--%>
+                                <%--<a href="#">Friends</a>--%>
+                            <%--</div>--%>
+                        <%--</li>--%>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">

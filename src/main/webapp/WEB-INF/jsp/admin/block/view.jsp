@@ -81,7 +81,7 @@
                                                         <a href="/admin/room/view/${room.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/room/delete/${room.id}">Remove</a>
+                                                        <a href="/admin/room/edit/${room.id}?flag=true">Edit</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

@@ -67,6 +67,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-4">
+                        <form:input path="confirmPassword" id="password" type="password" cssClass="form-control" />
+                        <form:errors path="confirmPassword" cssClass="form-inline" />
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input class="btn btn-success" type="submit" value="Submit">
                     </div>

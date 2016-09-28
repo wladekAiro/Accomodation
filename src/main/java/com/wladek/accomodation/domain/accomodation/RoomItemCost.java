@@ -17,6 +17,8 @@ public class RoomItemCost extends AbstractModel{
     private ItemName itemName;
     @NotNull(message = "Item cost must be provided")
     private Long unitCost = new Long(50);
+    @NotNull(message = "Item cost must be provided")
+    private Long totalAvailable = new Long(0);
 
     public ItemName getItemName() {
         return itemName;
@@ -32,5 +34,13 @@ public class RoomItemCost extends AbstractModel{
 
     public void setUnitCost(Long unitCost) {
         this.unitCost = unitCost;
+    }
+
+    public Long getTotalAvailable() {
+        return totalAvailable;
+    }
+
+    public void setTotalAvailable(Long totalAvailable) {
+        this.totalAvailable = totalAvailable;
     }
 }

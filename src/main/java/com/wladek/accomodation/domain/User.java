@@ -38,20 +38,27 @@ import java.util.Set;
 public class User extends AbstractModel{
 
     public static final String LOGIN_ID_PATTERN = "^[a-zA-Z0-9-]+([_.][a-zA-Z0-9-]+)*$";
+    public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
+    @NotEmpty(message = "Provide your name")
     private String name;
 
     @Column(unique = true, nullable = false)
     @NotEmpty
-    @Pattern(regexp = LOGIN_ID_PATTERN, message = "user.wrongloginId.alert")
+    @Pattern(regexp = LOGIN_ID_PATTERN, message = "Illegal username, use alphabets and numbers only")
     private String loginId;
 
     @Column(nullable = false)
-    @NotEmpty
+    @NotEmpty(message = "Provide your password")
     private String password;
 
+    @Transient
+    @NotEmpty(message = "Provide a confirmation password")
+    private String confirmPassword;
+
     @Column(unique = true)
-    @Email
+    @Pattern(regexp = EMAIL_PATTERN , message = "Invalid email address")
     private String email;
 
     private String lang;
@@ -167,5 +174,13 @@ public class User extends AbstractModel{
 
     public void setRoomItems(List<RoomItem> roomItems) {
         this.roomItems = roomItems;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

@@ -4,6 +4,8 @@ import com.wladek.accomodation.domain.accomodation.*;
 import com.wladek.accomodation.domain.enumeration.ItemName;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.service.accomodation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
+
+    Logger logger = LoggerFactory.getLogger(AdminController.class);
     @Autowired
     ZoneService zoneService;
     @Autowired
@@ -252,8 +256,10 @@ public class AdminController {
                             RedirectAttributes redirectAttributes,
                             Model model) {
 
+        Room room = roomService.findById(bed.getRoomId());
+
+        //Add new bed
         if (result.hasErrors()) {
-            Room room = roomService.findById(bed.getRoomId());
             model.addAttribute("room", room);
             model.addAttribute("bed", bed);
 
@@ -264,12 +270,67 @@ public class AdminController {
 
         }
 
-        Bed newBed = bedService.create(bed);
+        if (room.getBeds().size() < room.getCapacity()) {
+            Bed newBed = bedService.create(bed);
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("content", "Bed " + newBed.getNumber() + " created");
 
-        redirectAttributes.addFlashAttribute("message", true);
-        redirectAttributes.addFlashAttribute("content", "Bed " + newBed.getNumber() + " created");
+        } else {
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("content", "Room capacity exceeded ");
+        }
 
         return "redirect:/admin/room/view/" + bed.getRoomId();
+    }
+
+    @RequestMapping(value = "/room/updatebed", method = RequestMethod.POST)
+    public String updateBed(@ModelAttribute @Valid Bed bed, BindingResult result,
+                            RedirectAttributes redirectAttributes,
+                            Model model) {
+
+        Room room = roomService.findById(bed.getRoomId());
+
+        //Update bed
+        if (result.hasErrors()) {
+
+            model.addAttribute("room", room);
+            model.addAttribute("bed", new Bed());
+            model.addAttribute("bedInDb", bed);
+            model.addAttribute("flag", true);
+
+            model.addAttribute("message", true);
+            model.addAttribute("content", "Form has errors");
+
+            return "/admin/room/view";
+
+        }
+
+        Bed newBed = bedService.update(bed);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", "Bed " + newBed.getNumber() + " edited");
+
+
+        return "redirect:/admin/room/view/" + bed.getRoomId();
+    }
+
+    @RequestMapping(value = "/room/editbed/{bedId}", method = RequestMethod.GET)
+    public String editBed(@PathVariable("bedId") Long bedId,
+                          @RequestParam(value = "flag", required = false, defaultValue = "false") boolean flag,
+                          Model model) {
+
+        Bed bed = bedService.findOne(bedId);
+
+        Room room = bed.getRoom();
+
+        model.addAttribute("room", room);
+        model.addAttribute("bed", new Bed());
+        model.addAttribute("bedInDb", bed);
+        model.addAttribute("flag", flag);
+
+        return "/admin/room/view";
+
+
     }
 
     @RequestMapping(value = "/hostels/roomitems", method = RequestMethod.GET)

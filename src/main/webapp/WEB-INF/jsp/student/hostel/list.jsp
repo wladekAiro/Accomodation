@@ -64,7 +64,6 @@
                                                 <th>Code</th>
                                                 <th>Zone</th>
                                                 <th></th>
-                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>

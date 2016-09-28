@@ -47,7 +47,7 @@
                 </c:if>
             </div>
             <div class="box-body">
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                             <h3>Beds</h3>
                             <div class="table-responsive">
                                 <c:choose>
@@ -64,7 +64,6 @@
                                                 <th>Type</th>
                                                 <th>Status</th>
                                                 <th></th>
-                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -74,10 +73,7 @@
                                                     <td>${bed.bedType.name()}</td>
                                                     <td>${bed.status.name()}</td>
                                                     <td>
-                                                        <a href="#">View</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#">Remove</a>
+                                                        <a href="/admin/room/editbed/${bed.id}?flag=true">Edit</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -93,12 +89,45 @@
                                 </c:choose>
                             </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <div style="margin-top: 50px">
                         <div class="box-body">
+                            <c:choose>
+                                <c:when test="${flag == true}">
+                                    <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+                                        <form:form acceptCharset="UTF-8" action="/admin/room/updatebed" method="post" modelAttribute="bedInDb" cssClass="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label for="number" class="col-sm-3 control-label">Number</label>
+                                                <div class="col-sm-9">
+                                                    <form:input path="number" id="number" type="text" cssClass="form-control" placeholder="Bed number" />
+                                                    <form:input path="id" id="id" type="hidden"/>
+                                                    <form:input path="roomId" id="roomId" value="${room.id}" type="hidden"/>
+                                                    <form:errors path="number" cssClass="form-inline" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bedType" class="col-sm-3 control-label">Bed type</label>
+                                                <div class="col-sm-9">
+                                                    <form:select path="bedType" id="bedType" type="select" cssClass="form-control">
+                                                        <form:options/>
+                                                    </form:select>
+                                                    <form:errors path="bedType" cssClass="form-inline" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-10">
+                                                    <input class="btn btn-success" type="submit" value="Submit">
+                                                </div>
+                                            </div>
+                                        </form:form>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
                                         ADD BED
                                     </button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>

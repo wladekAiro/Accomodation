@@ -62,7 +62,6 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Code</th>
-
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -72,12 +71,11 @@
                                                 <tr>
                                                     <td>${hostel.name}</td>
                                                     <td>${hostel.code}</td>
-                                                    <td>${hostel.gender.name()}</td>
                                                     <td>
-                                                        <a href="/admin/hostel/view/${zone.id}">View</a>
+                                                        <a href="/admin/hostel/view/${hostel.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/hostel/delete/${zone.id}">Remove</a>
+                                                        <a href="/admin/hostel/edit/${hostel.id}?flag=true">Edit</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -127,15 +125,6 @@
                                         <div class="col-sm-9">
                                             <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Hostel code" />
                                             <form:errors path="code" cssClass="form-inline" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="gender" class="col-sm-3 control-label">Gender</label>
-                                        <div class="col-sm-9">
-                                            <form:select path="gender" id="gender" type="select" cssClass="form-control">
-                                                <form:options/>
-                                            </form:select>
-                                            <form:errors path="gender" cssClass="form-inline" />
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -303,7 +303,7 @@
             </li>
 
             <li>
-                <a href="/student/booking"><i class="fa fa-files-o"></i> <span>Booking</span></a>
+                <a href="/student/room/details"><i class="fa fa-files-o"></i> <span>My room</span></a>
             </li>
         </ul>
     </section>

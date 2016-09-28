@@ -16,4 +16,9 @@ public class HomeContoller {
         return "redirect:/admin/home";
     }
 
+    @RequestMapping(value = "/student" , method = RequestMethod.GET)
+    public String getStudent(){
+        return "redirect:/student/profile";
+    }
+
 }

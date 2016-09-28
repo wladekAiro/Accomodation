@@ -153,4 +153,24 @@ public class StudentController {
 
         return "/student/hostel/room";
     }
+
+    @RequestMapping(value = "/room/details" , method = RequestMethod.GET)
+    public String studentRoom(@RequestParam(value = "all" , required = false , defaultValue = "false") boolean getAll , Model model){
+
+        Bed bed = bedService.getStudentBed();
+
+        Room room = null;
+
+        if (bed != null){
+            room = bed.getRoom();
+        }
+
+        List<RoomItem> roomItems = bedService.getStudentRoomItems(getAll);
+
+        model.addAttribute("room" , room);
+        model.addAttribute("bed" , bed);
+        model.addAttribute("roomItems" , roomItems);
+
+        return "/student/hostel/roomdetails";
+    }
 }

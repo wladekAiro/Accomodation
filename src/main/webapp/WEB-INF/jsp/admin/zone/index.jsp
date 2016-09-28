@@ -76,7 +76,7 @@
                                                         <a href="/admin/zones/view/${zone.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/zones/delete/${zone.id}">Remove</a>
+                                                        <a href="/admin/zones/edit/${zone.id}?flag=true">Edit</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
