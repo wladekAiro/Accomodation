@@ -88,14 +88,14 @@
                                         </p>
 
                                         <c:choose>
-                                            <c:when test="${principal.user.bed == null}">
+                                            <c:when test="${profile.student.bed == null}">
                                                 <p>
                                                 <h3>NON-RESIDENT</h3>
                                                 </p>
                                             </c:when>
                                             <c:otherwise>
                                                 <p>
-                                                <h3>ROOM : ${principal.user.bed.number}</h3>
+                                                <h3>ROOM : ${profile.student.bed.number}</h3>
                                                 </p>
                                             </c:otherwise>
                                         </c:choose>

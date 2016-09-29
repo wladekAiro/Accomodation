@@ -63,7 +63,7 @@
                                                 <th>Name</th>
                                                 <th>Code</th>
                                                 <th>Rooms</th>
-                                                <th></th>
+                                                <th>gender</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -73,8 +73,13 @@
                                                     <td>${block.name}</td>
                                                     <td>${block.code}</td>
                                                     <td>${block.rooms.size()}</td>
+                                                    <td>${block.gender.name()}</td>
                                                     <td>
-                                                        <a href="/student/hostels/block/${block.id}">View</a>
+                                                        <c:choose>
+                                                            <c:when test="${block.gender == userGender}">
+                                                                <a href="/student/hostels/block/${block.id}">View</a>
+                                                            </c:when>
+                                                        </c:choose>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

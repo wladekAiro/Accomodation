@@ -12,6 +12,8 @@ import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.repository.accomodation.RoomItemRepo;
 import com.wladek.accomodation.service.UserDetailsImpl;
 import com.wladek.accomodation.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ import java.util.List;
 @Service
 @Transactional
 public class BedServiceImpl implements BedService {
+
+    Logger logger = LoggerFactory.getLogger(BedServiceImpl.class);
+
     @Autowired
     BedRepo bedRepo;
     @Autowired
@@ -105,7 +110,7 @@ public class BedServiceImpl implements BedService {
                 bed.setStatus(BedStatus.BOOKED);
                 bed.setStudent(student);
 
-                assignItems(studentBed.getRoom() , student);
+                assignItems(bed.getRoom(), student);
 
                 bedRepo.save(bed);
 
@@ -116,19 +121,20 @@ public class BedServiceImpl implements BedService {
         return result;
     }
 
-    private void assignItems(Room room , User student) {
+    private void assignItems(Room room, User student) {
         List<Bed> bookedBeds = new ArrayList<>();
-        List<Bed> allBeds = room.getBeds();
 
-        for (Bed bed : allBeds){
-            if (bed.getStatus() == BedStatus.BOOKED || bed.getStatus() == BedStatus.RESERVED){
-                bookedBeds.add(bed);
-            }
-        }
+        bookedBeds.clear();
+
+        bookedBeds.addAll(bedRepo.findByStatusAndRoom(BedStatus.BOOKED , room));
+        bookedBeds.addAll(bedRepo.findByStatusAndRoom(BedStatus.RESERVED , room));
 
         //check if there are no bookings and assign additional room items
-        if (bookedBeds.isEmpty()){
-            //First booking assign additional items
+
+        logger.info(" ++++++++++++++++++++++ BOOKED BED SIZE ++++++++++++ "+bookedBeds.size());
+
+        if (bookedBeds.size() <= 1) {
+            //First booking on this room. Assign additional items
             List<RoomItem> roomItems = new ArrayList<>();
 
             RoomItem roomItem = new RoomItem();
@@ -160,7 +166,8 @@ public class BedServiceImpl implements BedService {
             roomItems.add(roomItem);
 
             roomItemRepo.save(roomItems);
-        }else {
+
+        } else {
             //Assign single item
             RoomItem roomItem = new RoomItem();
             roomItem.setItemName(ItemName.MATRES);
@@ -169,16 +176,26 @@ public class BedServiceImpl implements BedService {
             roomItem.setStudent(student);
 
             roomItemRepo.save(roomItem);
+
         }
     }
 
     @Override
-    public Bed getStudentBed() {
+    public Bed getStudentBed(Long studentId) {
 
-        User student = getCurrentUser();
+        User student = userService.findById(studentId);
 
         if (student.getBed() != null) {
-            return student.getBed();
+            switch (student.getBed().getStatus()) {
+                case BOOKED:
+                    return student.getBed();
+                case RESERVED:
+                    return student.getBed();
+                case OCCUPIED:
+                    return student.getBed();
+                default:
+                    return null;
+            }
         }
 
         return null;
@@ -186,24 +203,34 @@ public class BedServiceImpl implements BedService {
 
     @Override
     public List<RoomItem> getStudentRoomItems(boolean getAll) {
-        User student = getCurrentUser();
+        User student = userService.findById(getCurrentUser().getId());
 
-        List<RoomItem> roomItems = new ArrayList<>();
 
-        if (!student.getRoomItems().isEmpty()) {
+        if (getAll) {
+            return roomItemRepo.findByStudent(student);
+        } else {
+            List<RoomItem> roomItems = new ArrayList<>();
 
-            if (getAll) {
-                roomItems.addAll(student.getRoomItems());
-            } else {
-                for (RoomItem item : student.getRoomItems()) {
-                    if (item.getClearStatus() == RoomItemClearStatus.ISSUED) {
-                        roomItems.add(item);
-                    }
-                }
-            }
+            roomItems.clear();
+            roomItems.addAll(roomItemRepo.findByClearStatusAndStudent(RoomItemClearStatus.ASSIGNED, student));
+            roomItems.addAll(roomItemRepo.findByClearStatusAndStudent(RoomItemClearStatus.ISSUED, student));
+
+            return roomItems;
         }
+    }
 
-        return roomItems;
+    @Override
+    public void cancelBooking(Long studentId) {
+        //Update room booking status
+        Bed bed = getStudentBed(studentId);
+        bed.setStudent(null);
+        bed.setStatus(BedStatus.AVAILABLE);
+        update(bed);
+
+        //un-assign room items
+        List<RoomItem> roomItems = roomItemRepo.findByClearStatusAndStudent(RoomItemClearStatus.ASSIGNED,
+                userService.findById(studentId));
+        roomItemRepo.delete(roomItems);
     }
 
     public User getCurrentUser() {

@@ -226,7 +226,7 @@
                                     <sec:authentication property="principal" var="principal"/>
                                     <span class="hidden-xs">${principal.user.loginId}</span>
                                 </sec:authorize>
-                                <small>Member since Nov. 2012</small>
+                                <small>---------------------</small>
                             </p>
                         </li>
                         <!-- Menu Body -->

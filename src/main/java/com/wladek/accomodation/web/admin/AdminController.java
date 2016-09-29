@@ -60,10 +60,6 @@ public class AdminController {
             roomItemCosts.add(itemCost);
 
             itemCost = new RoomItemCost();
-            itemCost.setItemName(ItemName.BROOM);
-            roomItemCosts.add(itemCost);
-
-            itemCost = new RoomItemCost();
             itemCost.setItemName(ItemName.MATRES);
             roomItemCosts.add(itemCost);
 

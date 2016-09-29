@@ -25,7 +25,7 @@ public class PageDirectorController {
         }
 
         if (user.getUserRole().equals(UserRole.STUDENT)){
-            return "redirect:/student/profile" ;
+            return "redirect:/student/profile/"+user.getId();
         }
 
         return "redirect:/";

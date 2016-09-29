@@ -48,12 +48,11 @@
             </div>
             <div class="box-body">
                 <div class="col-sm-8">
-                            <h3>Beds</h3>
                             <div class="table-responsive">
                                 <c:choose>
                                     <c:when test="${empty room.beds}">
                                         <div class="alert alert-warning">
-                                            No beds available in this room
+                                            You have not been allocated a room. Book or consult administrator for assistance.
                                         </div>
                                     </c:when>
                                     <c:otherwise>
@@ -91,11 +90,23 @@
                                                                     <c:choose>
                                                                         <c:when test="${bed.myBed(principal.user.id)}">
                                                                             <a class="btn-sm btn-primary btn-danger"
-                                                                               href="/student/room/bed/${bed.id}?flag=true">Cancel Booking</a>
+                                                                               href="/student/room/details/${principal.user.id}/cancel">
+                                                                                Cancel Booking</a>
                                                                         </c:when>
                                                                     </c:choose>
                                                                 </c:when>
                                                                 <c:otherwise>
+                                                                    <c:choose>
+                                                                        <c:when test="${bed.status == 'OCCUPIED'}">
+                                                                            <c:choose>
+                                                                                <c:when test="${bed.myBed(principal.user.id)}">
+                                                                                    <a class="btn-sm btn-primary btn-success"
+                                                                                       href="#">
+                                                                                        Request transfer</a>
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </c:when>
+                                                                    </c:choose>
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </sec:authorize>
@@ -117,7 +128,7 @@
                 <div class="col-sm-4">
                     <div style="margin-top: 50px">
                         <div class="box-body">
-                            <h3>My Room items</h3>
+                            <h3>My Room items ${roomItems.size()}</h3>
                             <div class="table-responsive">
                                 <c:choose>
                                     <c:when test="${empty roomItems}">
@@ -137,7 +148,7 @@
                                             <c:forEach items="${roomItems}" var="item">
                                                 <tr>
                                                     <td>${item.itemName.name()}</td>
-                                                    <td>${item.RoomItemClearStatus.name()}</td>
+                                                    <td>${item.clearStatus.name()}</td>
                                                 </tr>
                                             </c:forEach>
                                                 <%--<tr>--%>

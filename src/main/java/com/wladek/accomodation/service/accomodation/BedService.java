@@ -15,6 +15,7 @@ public interface BedService {
     public Bed update(Bed bed);
     public void delete(Bed bed);
     public String bookBed(Bed bed);
-    public Bed getStudentBed();
+    public Bed getStudentBed(Long studentId);
     public List<RoomItem> getStudentRoomItems(boolean getAll);
+    public void cancelBooking(Long studentId);
 }

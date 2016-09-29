@@ -1,6 +1,8 @@
 package com.wladek.accomodation.web.student;
 
 import com.wladek.accomodation.domain.accomodation.*;
+import com.wladek.accomodation.domain.enumeration.BedStatus;
+import com.wladek.accomodation.service.UserDetailsImpl;
 import com.wladek.accomodation.service.accomodation.BedService;
 import com.wladek.accomodation.service.accomodation.BlockService;
 import com.wladek.accomodation.service.accomodation.HostelService;
@@ -8,6 +10,7 @@ import com.wladek.accomodation.service.accomodation.RoomService;
 import com.wladek.accomodation.service.student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,10 +37,10 @@ public class StudentController {
     @Autowired
     RoomService roomService;
 
-    @RequestMapping(value = "/profile" , method = RequestMethod.GET)
-    public String loadProfile(Model model){
+    @RequestMapping(value = "/profile/{id}" , method = RequestMethod.GET)
+    public String loadProfile(@PathVariable("id") Long id , Model model){
 
-        StudentProfile profile = studentService.loadProfile();
+        StudentProfile profile = studentService.loadProfile(id);
 
         model.addAttribute("profile" , profile);
 
@@ -93,7 +96,7 @@ public class StudentController {
         redirectAttributes.addFlashAttribute("message" , true);
         redirectAttributes.addFlashAttribute("content" , "Profile updated");
 
-        return "redirect:/student/profile";
+        return "redirect:/student/profile/"+profile.getStudent().getId();
     }
 
     @RequestMapping(value = "/hostels" , method = RequestMethod.GET)
@@ -109,8 +112,14 @@ public class StudentController {
 
     @RequestMapping(value = "/hostel/{hostelId}" , method = RequestMethod.GET)
     public String viewHostel(@PathVariable("hostelId") Long hostelId  , Model model){
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
         Hostel hostel = hostelService.findById(hostelId);
+        StudentProfile studentProfile = studentService.loadProfile(userDetails.getUser().getId());
+
         model.addAttribute("hostel" , hostel);
+        model.addAttribute("userGender" , studentProfile.getGender());
 
         return "/student/hostel/hostelview";
     }
@@ -154,10 +163,11 @@ public class StudentController {
         return "/student/hostel/room";
     }
 
-    @RequestMapping(value = "/room/details" , method = RequestMethod.GET)
-    public String studentRoom(@RequestParam(value = "all" , required = false , defaultValue = "false") boolean getAll , Model model){
+    @RequestMapping(value = "/room/details/{studentId}" , method = RequestMethod.GET)
+    public String studentRoom(@PathVariable("studentId") Long studentId,@RequestParam(value = "all" ,
+            required = false , defaultValue = "false") boolean getAll , Model model){
 
-        Bed bed = bedService.getStudentBed();
+        Bed bed = bedService.getStudentBed(studentId);
 
         Room room = null;
 
@@ -172,5 +182,20 @@ public class StudentController {
         model.addAttribute("roomItems" , roomItems);
 
         return "/student/hostel/roomdetails";
+    }
+
+    @RequestMapping(value = "/room/details/{studentId}/cancel" , method = RequestMethod.GET)
+    public String cancelBooking(@PathVariable("studentId") Long studentId, RedirectAttributes redirectAttributes){
+
+        bedService.cancelBooking(studentId);
+
+        redirectAttributes.addFlashAttribute("message" , true);
+        redirectAttributes.addFlashAttribute("content" , "Booking canceled");
+
+        return "redirect:/student/room/details/"+studentId;
+    }
+
+    public StudentProfile checkProfile(Long userId){
+        return studentService.loadProfile(userId);
     }
 }
