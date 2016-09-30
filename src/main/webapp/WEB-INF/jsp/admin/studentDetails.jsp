@@ -71,26 +71,6 @@
                                             </td>
                                         </tr>
                                     </c:forEach>
-                                    <tr>
-                                        <div class="box-tools">
-                                            <jsp:include page="/WEB-INF/jsp/common/pagination.jsp">
-                                                <jsp:param name="paginatedRecord" value="studentPage"/>
-                                                <jsp:param name="url" value="${pagenatedUrl}"/>
-                                            </jsp:include>
-                                            <div class="input-group">
-                                                <form method="get" action="/admin/student/list">
-                                                    <input type="text" name="search"
-                                                           class="form-control input-sm pull-right"
-                                                           style="width: 150px;" placeholder="Search student number"/>
-
-                                                    <div class="input-group-btn">
-                                                        <button class="btn btn-sm btn-default"><i class="fa fa-search">Go</i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </c:otherwise>
