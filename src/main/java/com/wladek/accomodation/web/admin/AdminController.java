@@ -4,6 +4,7 @@ import com.wladek.accomodation.domain.accomodation.*;
 import com.wladek.accomodation.domain.enumeration.ItemName;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.service.accomodation.*;
+import com.wladek.accomodation.service.student.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class AdminController {
     BedService bedService;
     @Autowired
     ItemCostRepo itemCostRepo;
+    @Autowired
+    StudentService studentService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
@@ -220,7 +223,6 @@ public class AdminController {
             model.addAttribute("roomsPage", roomsPage);
             model.addAttribute("room", room);
             model.addAttribute("pagenatedUrl", "/admin/block/view/" + room.getBlockId());
-            ;
 
             model.addAttribute("message", true);
             model.addAttribute("content", "Form has errors");
@@ -374,5 +376,38 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("content", roomItemCostInDb.getItemName() + " cost updated ");
 
         return "redirect:/admin/hostels/roomitems";
+    }
+
+    @RequestMapping(value = "/student/list", method = RequestMethod.GET)
+    public String students(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                           @RequestParam(value = "size", required = false, defaultValue = "20") int size,
+                           @RequestParam(value = "search", required = false) String search,
+                             Model model) {
+
+        Page<StudentProfile> studentProfiles = null;
+
+        if(search == null){
+            studentProfiles = studentService.getAll(page , size);
+        }else {
+            studentProfiles = studentService.getByStudentNumber(search, page, size);
+        }
+
+        model.addAttribute("studentPage" , studentProfiles);
+        model.addAttribute("pagenatedUrl", "/admin/student/list");
+
+        return "/admin/studentList";
+    }
+
+    @RequestMapping(value = "/student/{profileId}/details", method = RequestMethod.GET)
+    public String student(@PathVariable("profileId") Long profileId,
+                          @RequestParam(value = "all", required = false , defaultValue = "false") boolean all , Model model) {
+
+        StudentProfile profile = studentService.loadProfileById(profileId);
+        List<RoomItem> roomItemList = studentService.getStudentRoomItems(profile.getStudent().getId() , all);
+
+        model.addAttribute("profile" , profile);
+        model.addAttribute("roomItems" , roomItemList);
+
+        return "/admin/studentDetails";
     }
 }
