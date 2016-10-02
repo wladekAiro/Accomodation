@@ -1,7 +1,7 @@
 Spring mvc application for pension system
 # Requirements
 
-* Java 1.7
+* Java 1.7 of higher
     * please set JAVA_HOME environment variable 
 * Maven
     *maven version 3.0.3 or higher
