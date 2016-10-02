@@ -47,7 +47,7 @@
                 </c:if>
             </div>
             <div class="box-body">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                             <h3>Room items and their unit Costs</h3>
                             <div class="table-responsive">
                                 <c:choose>
@@ -62,6 +62,9 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Unit cost</th>
+                                                <th>Total</th>
+                                                <th>Issued</th>
+                                                <th>Available</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -70,6 +73,9 @@
                                                 <tr>
                                                     <td>${item.itemName}</td>
                                                     <td>${item.unitCost}</td>
+                                                    <td>${item.totalAvailable}</td>
+                                                    <td>${item.totalIssued}</td>
+                                                    <td>${item.getAvailable(item.totalAvailable , item.totalIssued)}</td>
                                                     <td>
                                                         <a href="/admin/hostels/roomitems?flag=true&val=${item.id}">Edit</a>
                                                     </td>
@@ -100,6 +106,13 @@
                                             <div class="col-sm-9">
                                                 <form:input path="unitCost" id="code" type="text" cssClass="form-control" placeholder="Ksh" />
                                                 <form:errors path="unitCost" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="totalAvailable" class="col-sm-3 control-label">Total available</label>
+                                            <div class="col-sm-9">
+                                                <form:input path="totalAvailable" id="code" type="text" cssClass="form-control" placeholder="Total available" />
+                                                <form:errors path="totalAvailable" cssClass="form-inline" />
                                             </div>
                                         </div>
                                         <div class="form-group">

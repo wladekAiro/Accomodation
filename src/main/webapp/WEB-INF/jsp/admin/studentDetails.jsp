@@ -65,8 +65,14 @@
                                                 <c:choose>
                                                     <c:when test="${item.clearStatus == 'ASSIGNED'}">
                                                         <a class="btn btn-primary"
-                                                           href="#/admin/student/item/${item.id}/issue/${profile.student.id}">Issue</a>
+                                                           href="/admin/student/item/${item.id}/issue/${profile.id}">Issue</a>
                                                     </c:when>
+                                                    <c:otherwise>
+                                                        <c:when test="${item.clearStatus == 'ISSUED'}">
+                                                            <a class="btn btn-primary"
+                                                               href="#/admin/student/item/${item.id}/clear/${profile.id}">Issue</a>
+                                                        </c:when>
+                                                    </c:otherwise>
                                                 </c:choose>
                                             </td>
                                         </tr>

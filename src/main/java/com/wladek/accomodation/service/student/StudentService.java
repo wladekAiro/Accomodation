@@ -18,4 +18,5 @@ public interface StudentService {
     public Page<StudentProfile> getByStudentNumber(String studentNumber , int page, int size);
     public StudentProfile loadProfileById(Long profileId);
     public List<RoomItem> getStudentRoomItems(Long userId , boolean getAll);
+    public String issueItem(Long itemId);
 }

@@ -369,6 +369,11 @@ public class AdminController {
 
         RoomItemCost roomItemCostInDb = itemCostRepo.findOne(itemCost.getId());
         roomItemCostInDb.setUnitCost(itemCost.getUnitCost());
+        roomItemCostInDb.setTotalAvailable(itemCost.getTotalAvailable());
+
+        if (roomItemCostInDb.getTotalIssued() == null){
+            roomItemCostInDb.setTotalIssued(new Long(0));
+        }
 
         roomItemCostInDb = itemCostRepo.save(roomItemCostInDb);
 
@@ -409,5 +414,19 @@ public class AdminController {
         model.addAttribute("roomItems" , roomItemList);
 
         return "/admin/studentDetails";
+    }
+
+    @RequestMapping(value = "/student/item/{itemId}/issue/{profileId}", method = RequestMethod.GET)
+    public String issueItem(@PathVariable("itemId") Long itemId,@PathVariable("profileId") Long profileId,
+                            RedirectAttributes redirectAttributes) {
+
+        StudentProfile profile = studentService.loadProfileById(profileId);
+
+        String result = studentService.issueItem(itemId);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", result);
+
+        return "redirect:/admin/student/"+profileId+"/details";
     }
 }

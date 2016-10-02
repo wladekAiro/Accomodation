@@ -4,6 +4,7 @@ import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.accomodation.RoomItem;
 import com.wladek.accomodation.domain.accomodation.StudentProfile;
 import com.wladek.accomodation.domain.enumeration.RoomItemClearStatus;
+import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.repository.accomodation.ProfileRepo;
 import com.wladek.accomodation.repository.accomodation.RoomItemRepo;
 import com.wladek.accomodation.service.UserDetailsImpl;
@@ -30,6 +31,8 @@ public class StudentServiceImpl implements StudentService{
     UserService userService;
     @Autowired
     RoomItemRepo roomItemRepo;
+    @Autowired
+    ItemCostRepo itemCostRepo;
 
     @Override
     public StudentProfile loadProfile(Long id) {
@@ -107,6 +110,11 @@ public class StudentServiceImpl implements StudentService{
 
             return roomItems;
         }
+    }
+
+    @Override
+    public String issueItem(Long itemId) {
+        return null;
     }
 
 
