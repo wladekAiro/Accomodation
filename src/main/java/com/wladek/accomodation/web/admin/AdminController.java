@@ -420,12 +420,12 @@ public class AdminController {
     public String issueItem(@PathVariable("itemId") Long itemId,@PathVariable("profileId") Long profileId,
                             RedirectAttributes redirectAttributes) {
 
-        StudentProfile profile = studentService.loadProfileById(profileId);
-
         String result = studentService.issueItem(itemId);
 
-        redirectAttributes.addFlashAttribute("message", true);
-        redirectAttributes.addFlashAttribute("content", result);
+        if (!result.equals("SUCCESS")){
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("content", result);
+        }
 
         return "redirect:/admin/student/"+profileId+"/details";
     }

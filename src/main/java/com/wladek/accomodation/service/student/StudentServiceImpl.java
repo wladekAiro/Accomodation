@@ -2,6 +2,7 @@ package com.wladek.accomodation.service.student;
 
 import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.accomodation.RoomItem;
+import com.wladek.accomodation.domain.accomodation.RoomItemCost;
 import com.wladek.accomodation.domain.accomodation.StudentProfile;
 import com.wladek.accomodation.domain.enumeration.RoomItemClearStatus;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
@@ -114,7 +115,25 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public String issueItem(Long itemId) {
-        return null;
+        RoomItem roomItem = roomItemRepo.findOne(itemId);
+
+        RoomItemCost itemCost = itemCostRepo.findByItemName(roomItem.getItemName());
+
+        if (itemCost.getTotalAvailable() > itemCost.getTotalIssued()){
+
+            roomItem.setClearStatus(RoomItemClearStatus.ISSUED);
+
+            Long issued = itemCost.getTotalIssued() + 1;
+            itemCost.setTotalIssued(issued);
+
+            roomItemRepo.save(roomItem);
+
+            itemCostRepo.save(itemCost);
+
+            return "SUCCESS";
+        }
+
+        return "No "+roomItem.getItemName() +" available in stock";
     }
 
 

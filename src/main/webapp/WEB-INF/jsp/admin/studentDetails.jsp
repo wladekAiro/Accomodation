@@ -68,10 +68,12 @@
                                                            href="/admin/student/item/${item.id}/issue/${profile.id}">Issue</a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <c:when test="${item.clearStatus == 'ISSUED'}">
-                                                            <a class="btn btn-primary"
-                                                               href="#/admin/student/item/${item.id}/clear/${profile.id}">Issue</a>
-                                                        </c:when>
+                                                        <c:choose>
+                                                            <c:when test="${item.clearStatus == 'ISSUED'}">
+                                                                <a class="btn btn-primary btn-success"
+                                                                   href="#/admin/student/item/${item.id}/clear/${profile.id}">Clear</a>
+                                                            </c:when>
+                                                        </c:choose>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
