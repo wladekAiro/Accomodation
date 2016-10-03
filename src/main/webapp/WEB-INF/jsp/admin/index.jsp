@@ -29,10 +29,89 @@
     </div><!-- /.box-header -->
     <div class="box-body">
         <h3>Welcome To Admin Panel</h3>
+        <div class="col-sm-12">
+            <form id="eventForm" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Date</label>
+                    <div class="col-xs-5 date">
+                        <div class="input-group input-append date" id="datePicker1">
+                            <input type="text" class="form-control" name="date" />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Date</label>
+                    <div class="col-xs-5 date">
+                        <div class="input-group input-append date" id="datePicker">
+                            <input type="text" class="form-control" name="date" />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-5 col-xs-offset-3">
+                        <button type="submit" class="btn btn-default">Validate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-<%--end body--%>
-<!-- start of footer section -->
 
+<%--js--%>
+<script>
+    $(document).ready(function() {
+        $('#datePicker')
+                .datepicker({
+                    format: 'mm/dd/yyyy'
+                })
+                .on('changeDate', function(e) {
+                    // Revalidate the date field
+                    $('#eventForm').formValidation('revalidateField', 'date');
+                });
+
+        $('#datePicker1')
+                .datepicker({
+                    format: 'mm/dd/yyyy'
+                })
+                .on('changeDate', function(e) {
+                    // Revalidate the date field
+                    $('#eventForm').formValidation('revalidateField', 'date');
+                });
+
+        $('#eventForm').formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The name is required'
+                        }
+                    }
+                },
+                date: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The date is required'
+                        },
+                        date: {
+                            format: 'MM/DD/YYYY',
+                            message: 'The date is not a valid'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+<%--en js--%>
 <jsp:include page="/WEB-INF/jsp/common/adminFooter.jsp"/>
 </html>

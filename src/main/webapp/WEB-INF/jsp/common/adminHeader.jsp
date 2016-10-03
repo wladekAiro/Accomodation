@@ -17,12 +17,14 @@
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
 <!-- Bootstrap core CSS -->
-<link type="text/css" href="/resources/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-<link type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-<link type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
-<link type="text/css" href="/resources/css/admin/app.css" rel="stylesheet">
-<link type="text/css" href="/resources/css/admin/skin-blue.css" rel="stylesheet">
-<link type="text/css" href="/resources/css/admin/timeline.css" rel="stylesheet">
+<link type="text/css" href="/resources/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+<link type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" />
+<link type="text/css" href="/resources/css/admin/app.css" rel="stylesheet" />
+<link type="text/css" href="/resources/css/admin/skin-blue.css" rel="stylesheet" />
+<link type="text/css" href="/resources/css/admin/timeline.css" rel="stylesheet" />
+<link type="text/css" href="/resources/js/admin/datepicker/datepicker.min.css" rel="stylesheet" />
+<link type="text/css" href="/resources/js/admin/datepicker/datepicker3.min.css" rel="stylesheet" />
 
 <%--custom css--%>
 <%--jasny boot-strap--%>
@@ -37,7 +39,7 @@
 <script type="text/javascript" src="/resources/js/admin/jquery.tablesorter.js"></script>
 <script type="text/javascript" src="/resources/js/admin/app.min.js"></script>
 <script type="text/javascript" src="/resources/js/admin/application.js"></script>
-<script type="text/javascript" src="/resources/js/admin/datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/resources/js/admin/datepicker/js/bootstrap-datepicker.min.js"></script>
 <%--<script>tinymce.init({selector:'textarea'});</script>--%>
 
 
