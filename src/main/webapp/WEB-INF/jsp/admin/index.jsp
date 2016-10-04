@@ -64,7 +64,7 @@
                                 <label for="offSessionDate" class="col-sm-3 control-label">OffSession Start</label>
                                 <div class="col-sm-9 date">
                                     <div class="input-group input-append date" id="offSessionDate">
-                                        <form:input path="offSessionDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester End" readonly="true" />
+                                        <form:input path="offSessionDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="OffSession date" readonly="true" />
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                         <form:errors path="offSessionDate" cssClass="form-inline" />
                                     </div>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-10">
-                                    <input class="btn btn-success" type="submit" value="Submit">
+                                    <input class="btn btn-success" type="submit" value="Set Dates">
                                 </div>
                             </div>
                         </form:form>
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            
+
         </div>
     </div>
 </div>

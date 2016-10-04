@@ -27,6 +27,13 @@
 
                 <h3>NAME : ${profile.student.name}</h3>
                 </p>
+
+                <c:if test="${message}">
+                    <div class="alert alert-success">
+                            ${content}
+                    </div>
+                </c:if>
+
             </div>
             <div class="box-body">
                 <p>

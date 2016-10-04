@@ -87,7 +87,7 @@ public class AdminController {
 
         List<Semester> semesters = semesterRepo.findAll();
 
-        Semester semester = new Semester();
+        Semester semester = null;
 
         if (semesters.size() >= 1){
             semester = semesters.get(0);
@@ -96,6 +96,8 @@ public class AdminController {
             semester.setSemEndDate(formatter.format(semester.getSemesterEndDate()));
             semester.setOffSessionDate(formatter.format(semester.getOffSessionBookingStartDate()));
 
+        }else {
+            semester = new Semester();
         }
 
         model.addAttribute("semester" , semester);
