@@ -1,8 +1,10 @@
 package com.wladek.accomodation.web.admin;
 
+import com.wladek.accomodation.domain.Semester;
 import com.wladek.accomodation.domain.accomodation.*;
 import com.wladek.accomodation.domain.enumeration.ItemName;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
+import com.wladek.accomodation.repository.accomodation.SemesterRepo;
 import com.wladek.accomodation.service.accomodation.*;
 import com.wladek.accomodation.service.student.StudentService;
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +44,10 @@ public class AdminController {
     ItemCostRepo itemCostRepo;
     @Autowired
     StudentService studentService;
+    @Autowired
+    SemesterRepo semesterRepo;
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("mm/dd/yyyy");
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
@@ -76,9 +83,22 @@ public class AdminController {
 
 
             itemCostRepo.save(roomItemCosts);
+        }
 
+        List<Semester> semesters = semesterRepo.findAll();
+
+        Semester semester = new Semester();
+
+        if (semesters.size() >= 1){
+            semester = semesters.get(0);
+
+            semester.setSemStartDate(formatter.format(semester.getSemesterStartDate()));
+            semester.setSemEndDate(formatter.format(semester.getSemesterEndDate()));
+            semester.setOffSessionDate(formatter.format(semester.getOffSessionBookingStartDate()));
 
         }
+
+        model.addAttribute("semester" , semester);
 
         return "/admin/index";
     }

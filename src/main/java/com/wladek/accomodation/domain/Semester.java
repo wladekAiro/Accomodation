@@ -1,6 +1,9 @@
 package com.wladek.accomodation.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -43,5 +46,39 @@ public class Semester extends AbstractModel {
 
     public void setOffSessionBookingStartDate(Date offSessionBookingStartDate) {
         this.offSessionBookingStartDate = offSessionBookingStartDate;
+    }
+
+    @NotEmpty(message = "Cannot be empty")
+    @Transient
+    private String semStartDate;
+    @NotEmpty(message = "Cannot be empty")
+    @Transient
+    private String semEndDate;
+    @NotEmpty(message = "Cannot be empty")
+    @Transient
+    private String offSessionDate;
+
+    public String getSemStartDate() {
+        return semStartDate;
+    }
+
+    public void setSemStartDate(String semStartDate) {
+        this.semStartDate = semStartDate;
+    }
+
+    public String getSemEndDate() {
+        return semEndDate;
+    }
+
+    public void setSemEndDate(String semEndDate) {
+        this.semEndDate = semEndDate;
+    }
+
+    public String getOffSessionDate() {
+        return offSessionDate;
+    }
+
+    public void setOffSessionDate(String offSessionDate) {
+        this.offSessionDate = offSessionDate;
     }
 }

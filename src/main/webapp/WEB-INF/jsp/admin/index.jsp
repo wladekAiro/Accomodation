@@ -29,34 +29,59 @@
     </div><!-- /.box-header -->
     <div class="box-body">
         <h3>Welcome To Admin Panel</h3>
-        <div class="col-sm-12">
-            <form id="eventForm" method="post" class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">Date</label>
-                    <div class="col-xs-5 date">
-                        <div class="input-group input-append date" id="datePicker1">
-                            <input type="text" class="form-control" name="date" />
-                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
+        <div class="col-sm-6">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">
+                        Semester dates
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">Date</label>
-                    <div class="col-xs-5 date">
-                        <div class="input-group input-append date" id="datePicker">
-                            <input type="text" class="form-control" name="date" />
-                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
+                <div class="box-body">
+                    <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+                        <form:form acceptCharset="UTF-8" action="/admin/hostel/itemcostupdate" method="post" modelAttribute="semester" cssClass="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="semStartDate" class="col-sm-3 control-label">Begining</label>
+                                <div class="col-sm-9 date">
+                                    <div class="input-group input-append date" id="semStartDate">
+                                        <form:input path="semStartDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester start" readonly="true" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <form:input path="id" id="id" type="hidden"/>
+                                            <form:errors path="semStartDate" cssClass="form-inline" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="semEndDate" class="col-sm-3 control-label">Ending</label>
+                                <div class="col-sm-9 date">
+                                    <div class="input-group input-append date" id="semEndDate">
+                                        <form:input path="semEndDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester End" readonly="true" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <form:errors path="semEndDate" cssClass="form-inline" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="offSessionDate" class="col-sm-3 control-label">OffSession Start</label>
+                                <div class="col-sm-9 date">
+                                    <div class="input-group input-append date" id="offSessionDate">
+                                        <form:input path="offSessionDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester End" readonly="true" />
+                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <form:errors path="offSessionDate" cssClass="form-inline" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-10">
+                                    <input class="btn btn-success" type="submit" value="Submit">
+                                </div>
+                            </div>
+                        </form:form>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="col-xs-5 col-xs-offset-3">
-                        <button type="submit" class="btn btn-default">Validate</button>
-                    </div>
-                </div>
-            </form>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            
         </div>
     </div>
 </div>
@@ -64,7 +89,7 @@
 <%--js--%>
 <script>
     $(document).ready(function() {
-        $('#datePicker')
+        $('#semStartDate')
                 .datepicker({
                     format: 'mm/dd/yyyy'
                 })
@@ -73,7 +98,7 @@
                     $('#eventForm').formValidation('revalidateField', 'date');
                 });
 
-        $('#datePicker1')
+        $('#semEndDate')
                 .datepicker({
                     format: 'mm/dd/yyyy'
                 })
@@ -81,35 +106,14 @@
                     // Revalidate the date field
                     $('#eventForm').formValidation('revalidateField', 'date');
                 });
-
-        $('#eventForm').formValidation({
-            framework: 'bootstrap',
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                name: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The name is required'
-                        }
-                    }
-                },
-                date: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The date is required'
-                        },
-                        date: {
-                            format: 'MM/DD/YYYY',
-                            message: 'The date is not a valid'
-                        }
-                    }
-                }
-            }
-        });
+        $('#offSessionDate')
+                .datepicker({
+                    format: 'mm/dd/yyyy'
+                })
+                .on('changeDate', function(e) {
+                    // Revalidate the date field
+                    $('#eventForm').formValidation('revalidateField', 'date');
+                });
     });
 </script>
 <%--en js--%>
