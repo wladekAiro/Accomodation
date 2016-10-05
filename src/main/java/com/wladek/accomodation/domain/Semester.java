@@ -13,7 +13,7 @@ import java.util.Date;
 public class Semester extends AbstractModel {
     private Date semesterStartDate;
     private Date semesterEndDate;
-    private boolean booking;
+    private Boolean booking = true;
     private Date offSessionBookingStartDate;
 
     public Date getSemesterEndDate() {
@@ -48,13 +48,12 @@ public class Semester extends AbstractModel {
         this.offSessionBookingStartDate = offSessionBookingStartDate;
     }
 
-    @NotEmpty(message = "Cannot be empty")
     @Transient
     private String semStartDate;
-    @NotEmpty(message = "Cannot be empty")
+
     @Transient
     private String semEndDate;
-    @NotEmpty(message = "Cannot be empty")
+
     @Transient
     private String offSessionDate;
 

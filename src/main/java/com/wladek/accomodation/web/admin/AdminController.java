@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
 public class AdminController {
 
     Logger logger = LoggerFactory.getLogger(AdminController.class);
+
     @Autowired
     ZoneService zoneService;
     @Autowired
@@ -47,7 +49,7 @@ public class AdminController {
     @Autowired
     SemesterRepo semesterRepo;
 
-    private static SimpleDateFormat formatter = new SimpleDateFormat("mm/dd/yyyy");
+    SimpleDateFormat formatter = new SimpleDateFormat("mm/dd/yyyy");
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
@@ -450,5 +452,62 @@ public class AdminController {
         }
 
         return "redirect:/admin/student/"+profileId+"/details";
+    }
+
+    @RequestMapping(value = "/setDates" , method = RequestMethod.POST)
+    public String setSemesterDates(@ModelAttribute @Valid Semester semester , BindingResult result ,
+                                   RedirectAttributes redirectAttributes , Model model) throws ParseException {
+
+//        if (result.hasErrors()){
+//
+//            logger.info("++++++++++++++++++ FORM ERRORS +++++++++++++++++++++++ ");
+//
+//            model.addAttribute("semester" , semester);
+//            model.addAttribute("message" , true);
+//            model.addAttribute("content" , "Form errors");
+//
+//            return "/admin/index";
+//        }
+
+        Semester semInDb = null;
+
+        String startDate = semester.getSemStartDate();
+        String endDate = semester.getSemEndDate();
+        String offSessionDate = semester.getOffSessionDate();
+
+        logger.info("++++ DATES : START " + startDate + " END : " + endDate + " OFFSESION : "+offSessionDate);
+
+        if (semester.getId() != null){
+
+            logger.info("++++++++++++++++++ UPDATE SEM DATES +++++++++++++++++++++++ ");
+
+            semInDb = semesterRepo.findOne(semester.getId());
+
+            semInDb.setSemesterEndDate(formatter.parse(endDate));
+            semInDb.setSemesterStartDate(formatter.parse(startDate));
+            semInDb.setOffSessionBookingStartDate(formatter.parse(offSessionDate));
+
+            semesterRepo.save(semInDb);
+
+            redirectAttributes.addFlashAttribute("message" ,true);
+            redirectAttributes.addFlashAttribute("content" ,"Dates set successfully");
+
+        }else {
+
+            semInDb = new Semester();
+
+            logger.info("++++++++++++++++++ CREATE SEM DATES +++++++++++++++++++++++ ");
+
+            semInDb.setSemesterEndDate(formatter.parse(endDate));
+            semInDb.setSemesterStartDate(formatter.parse(startDate));
+            semInDb.setOffSessionBookingStartDate(formatter.parse(offSessionDate));
+
+            semesterRepo.save(semInDb);
+
+            redirectAttributes.addFlashAttribute("message" ,true);
+            redirectAttributes.addFlashAttribute("content" ,"Dates set successfully");
+        }
+
+        return "redirect:/admin/home";
     }
 }

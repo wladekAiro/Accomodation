@@ -19,5 +19,7 @@ error:
 
 logging:
   level:
-    org.springframework.web: ERROR
+    com.wladek.accomodation: INFO
+    org.springframework.web: INFO
     org.hibernate: ERROR
+

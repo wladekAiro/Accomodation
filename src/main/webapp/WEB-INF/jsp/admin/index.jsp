@@ -38,12 +38,12 @@
                 </div>
                 <div class="box-body">
                     <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-                        <form:form acceptCharset="UTF-8" action="/admin/hostel/itemcostupdate" method="post" modelAttribute="semester" cssClass="form-horizontal" role="form">
+                        <form:form acceptCharset="UTF-8" action="/admin/setDates" method="post" modelAttribute="semester" cssClass="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="semStartDate" class="col-sm-3 control-label">Begining</label>
                                 <div class="col-sm-9 date">
                                     <div class="input-group input-append date" id="semStartDate">
-                                        <form:input path="semStartDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester start" readonly="true" />
+                                        <form:input path="semStartDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester start"/>
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                             <form:input path="id" id="id" type="hidden"/>
                                             <form:errors path="semStartDate" cssClass="form-inline" />
@@ -54,7 +54,7 @@
                                 <label for="semEndDate" class="col-sm-3 control-label">Ending</label>
                                 <div class="col-sm-9 date">
                                     <div class="input-group input-append date" id="semEndDate">
-                                        <form:input path="semEndDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester End" readonly="true" />
+                                        <form:input path="semEndDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="Semester End" />
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                         <form:errors path="semEndDate" cssClass="form-inline" />
                                     </div>
@@ -64,7 +64,7 @@
                                 <label for="offSessionDate" class="col-sm-3 control-label">OffSession Start</label>
                                 <div class="col-sm-9 date">
                                     <div class="input-group input-append date" id="offSessionDate">
-                                        <form:input path="offSessionDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="OffSession date" readonly="true" />
+                                        <form:input path="offSessionDate" id="itemName" name="date" type="text" cssClass="form-control" placeholder="OffSession date"/>
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                         <form:errors path="offSessionDate" cssClass="form-inline" />
                                     </div>
