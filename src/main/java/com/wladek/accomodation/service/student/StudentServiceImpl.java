@@ -10,6 +10,8 @@ import com.wladek.accomodation.repository.accomodation.ProfileRepo;
 import com.wladek.accomodation.repository.accomodation.RoomItemRepo;
 import com.wladek.accomodation.service.UserDetailsImpl;
 import com.wladek.accomodation.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +36,8 @@ public class StudentServiceImpl implements StudentService{
     RoomItemRepo roomItemRepo;
     @Autowired
     ItemCostRepo itemCostRepo;
+
+    Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     @Override
     public StudentProfile loadProfile(Long id) {
@@ -116,6 +120,11 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public String issueItem(Long itemId) {
         RoomItem roomItem = roomItemRepo.findOne(itemId);
+
+        int itemCount = roomItemRepo.findByStudentAndClearStatus(roomItem.getStudent().getId() ,
+                RoomItemClearStatus.ISSUED.ordinal());
+
+        logger.info(" ===== ITEMS COUNTED ++++ " + itemCount);
 
         RoomItemCost itemCost = itemCostRepo.findByItemName(roomItem.getItemName());
 
