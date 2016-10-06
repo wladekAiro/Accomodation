@@ -5,6 +5,7 @@ import com.wladek.accomodation.domain.accomodation.Bed;
 import com.wladek.accomodation.domain.accomodation.Room;
 import com.wladek.accomodation.domain.accomodation.RoomItem;
 import com.wladek.accomodation.domain.enumeration.BedStatus;
+import com.wladek.accomodation.domain.enumeration.ItemCondition;
 import com.wladek.accomodation.domain.enumeration.ItemName;
 import com.wladek.accomodation.domain.enumeration.RoomItemClearStatus;
 import com.wladek.accomodation.repository.accomodation.BedRepo;
@@ -140,6 +141,7 @@ public class BedServiceImpl implements BedService {
             RoomItem roomItem = new RoomItem();
             roomItem.setItemName(ItemName.BROOM);
             roomItem.setClearStatus(RoomItemClearStatus.ASSIGNED);
+            roomItem.setItemCondition(ItemCondition.GOOD);
             roomItem.setCost(itemCostRepo.findByItemName(ItemName.BROOM).getUnitCost());
             roomItem.setStudent(student);
             roomItems.add(roomItem);
@@ -147,6 +149,7 @@ public class BedServiceImpl implements BedService {
             roomItem = new RoomItem();
             roomItem.setItemName(ItemName.DUSTBIN);
             roomItem.setClearStatus(RoomItemClearStatus.ASSIGNED);
+            roomItem.setItemCondition(ItemCondition.GOOD);
             roomItem.setCost(itemCostRepo.findByItemName(ItemName.DUSTBIN).getUnitCost());
             roomItem.setStudent(student);
             roomItems.add(roomItem);
@@ -154,12 +157,14 @@ public class BedServiceImpl implements BedService {
             roomItem = new RoomItem();
             roomItem.setItemName(ItemName.CURTAIN);
             roomItem.setClearStatus(RoomItemClearStatus.ASSIGNED);
+            roomItem.setItemCondition(ItemCondition.GOOD);
             roomItem.setCost(itemCostRepo.findByItemName(ItemName.CURTAIN).getUnitCost());
             roomItem.setStudent(student);
             roomItems.add(roomItem);
 
             roomItem = new RoomItem();
             roomItem.setItemName(ItemName.MATRES);
+            roomItem.setItemCondition(ItemCondition.GOOD);
             roomItem.setClearStatus(RoomItemClearStatus.ASSIGNED);
             roomItem.setCost(itemCostRepo.findByItemName(ItemName.MATRES).getUnitCost());
             roomItem.setStudent(student);
@@ -172,6 +177,7 @@ public class BedServiceImpl implements BedService {
             RoomItem roomItem = new RoomItem();
             roomItem.setItemName(ItemName.MATRES);
             roomItem.setClearStatus(RoomItemClearStatus.ASSIGNED);
+            roomItem.setItemCondition(ItemCondition.GOOD);
             roomItem.setCost(itemCostRepo.findByItemName(ItemName.MATRES).getUnitCost());
             roomItem.setStudent(student);
 

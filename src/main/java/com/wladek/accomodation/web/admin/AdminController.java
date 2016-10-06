@@ -2,7 +2,9 @@ package com.wladek.accomodation.web.admin;
 
 import com.wladek.accomodation.domain.Semester;
 import com.wladek.accomodation.domain.accomodation.*;
+import com.wladek.accomodation.domain.enumeration.BedStatus;
 import com.wladek.accomodation.domain.enumeration.ItemName;
+import com.wladek.accomodation.repository.accomodation.BedRepo;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.repository.accomodation.SemesterRepo;
 import com.wladek.accomodation.service.accomodation.*;
@@ -48,6 +50,8 @@ public class AdminController {
     StudentService studentService;
     @Autowired
     SemesterRepo semesterRepo;
+    @Autowired
+    BedRepo bedRepo;
 
     SimpleDateFormat formatter = new SimpleDateFormat("mm/dd/yyyy");
 
@@ -91,18 +95,18 @@ public class AdminController {
 
         Semester semester = null;
 
-        if (semesters.size() >= 1){
+        if (semesters.size() >= 1) {
             semester = semesters.get(0);
 
             semester.setSemStartDate(formatter.format(semester.getSemesterStartDate()));
             semester.setSemEndDate(formatter.format(semester.getSemesterEndDate()));
             semester.setOffSessionDate(formatter.format(semester.getOffSessionBookingStartDate()));
 
-        }else {
+        } else {
             semester = new Semester();
         }
 
-        model.addAttribute("semester" , semester);
+        model.addAttribute("semester", semester);
 
         return "/admin/index";
     }
@@ -395,7 +399,7 @@ public class AdminController {
         roomItemCostInDb.setUnitCost(itemCost.getUnitCost());
         roomItemCostInDb.setTotalAvailable(itemCost.getTotalAvailable());
 
-        if (roomItemCostInDb.getTotalIssued() == null){
+        if (roomItemCostInDb.getTotalIssued() == null) {
             roomItemCostInDb.setTotalIssued(new Long(0));
         }
 
@@ -411,17 +415,17 @@ public class AdminController {
     public String students(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                            @RequestParam(value = "size", required = false, defaultValue = "20") int size,
                            @RequestParam(value = "search", required = false) String search,
-                             Model model) {
+                           Model model) {
 
         Page<StudentProfile> studentProfiles = null;
 
-        if(search == null){
-            studentProfiles = studentService.getAll(page , size);
-        }else {
+        if (search == null) {
+            studentProfiles = studentService.getAll(page, size);
+        } else {
             studentProfiles = studentService.getByStudentNumber(search, page, size);
         }
 
-        model.addAttribute("studentPage" , studentProfiles);
+        model.addAttribute("studentPage", studentProfiles);
         model.addAttribute("pagenatedUrl", "/admin/student/list");
 
         return "/admin/studentList";
@@ -429,34 +433,34 @@ public class AdminController {
 
     @RequestMapping(value = "/student/{profileId}/details", method = RequestMethod.GET)
     public String student(@PathVariable("profileId") Long profileId,
-                          @RequestParam(value = "all", required = false , defaultValue = "false") boolean all , Model model) {
+                          @RequestParam(value = "all", required = false, defaultValue = "false") boolean all, Model model) {
 
         StudentProfile profile = studentService.loadProfileById(profileId);
-        List<RoomItem> roomItemList = studentService.getStudentRoomItems(profile.getStudent().getId() , all);
+        List<RoomItem> roomItemList = studentService.getStudentRoomItems(profile.getStudent().getId(), all);
 
-        model.addAttribute("profile" , profile);
-        model.addAttribute("roomItems" , roomItemList);
+        model.addAttribute("profile", profile);
+        model.addAttribute("roomItems", roomItemList);
 
         return "/admin/studentDetails";
     }
 
     @RequestMapping(value = "/student/item/{itemId}/issue/{profileId}", method = RequestMethod.GET)
-    public String issueItem(@PathVariable("itemId") Long itemId,@PathVariable("profileId") Long profileId,
+    public String issueItem(@PathVariable("itemId") Long itemId, @PathVariable("profileId") Long profileId,
                             RedirectAttributes redirectAttributes) {
 
         String result = studentService.issueItem(itemId);
 
-        if (!result.equals("SUCCESS")){
+        if (!result.equals("SUCCESS")) {
             redirectAttributes.addFlashAttribute("message", true);
             redirectAttributes.addFlashAttribute("content", result);
         }
 
-        return "redirect:/admin/student/"+profileId+"/details";
+        return "redirect:/admin/student/" + profileId + "/details";
     }
 
-    @RequestMapping(value = "/setDates" , method = RequestMethod.POST)
-    public String setSemesterDates(@ModelAttribute @Valid Semester semester , BindingResult result ,
-                                   RedirectAttributes redirectAttributes , Model model) throws ParseException {
+    @RequestMapping(value = "/setDates", method = RequestMethod.POST)
+    public String setSemesterDates(@ModelAttribute @Valid Semester semester, BindingResult result,
+                                   RedirectAttributes redirectAttributes, Model model) throws ParseException {
 
 //        if (result.hasErrors()){
 //
@@ -475,9 +479,9 @@ public class AdminController {
         String endDate = semester.getSemEndDate();
         String offSessionDate = semester.getOffSessionDate();
 
-        logger.info("++++ DATES : START " + startDate + " END : " + endDate + " OFFSESION : "+offSessionDate);
+        logger.info("++++ DATES : START " + startDate + " END : " + endDate + " OFFSESION : " + offSessionDate);
 
-        if (semester.getId() != null){
+        if (semester.getId() != null) {
 
             logger.info("++++++++++++++++++ UPDATE SEM DATES +++++++++++++++++++++++ ");
 
@@ -489,10 +493,10 @@ public class AdminController {
 
             semesterRepo.save(semInDb);
 
-            redirectAttributes.addFlashAttribute("message" ,true);
-            redirectAttributes.addFlashAttribute("content" ,"Dates set successfully");
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("content", "Dates set successfully");
 
-        }else {
+        } else {
 
             semInDb = new Semester();
 
@@ -504,10 +508,37 @@ public class AdminController {
 
             semesterRepo.save(semInDb);
 
-            redirectAttributes.addFlashAttribute("message" ,true);
-            redirectAttributes.addFlashAttribute("content" ,"Dates set successfully");
+            redirectAttributes.addFlashAttribute("message", true);
+            redirectAttributes.addFlashAttribute("content", "Dates set successfully");
         }
 
         return "redirect:/admin/home";
+    }
+
+    @RequestMapping(value = "/occupyBed/{bedId}/{profileId}", method = RequestMethod.GET)
+    public String occupyBed(@PathVariable("bedId") Long bedId, @PathVariable("profileId") Long profileId,
+                            RedirectAttributes redirectAttributes) {
+
+        Bed bedInDb = bedService.findOne(bedId);
+        bedInDb.setStatus(BedStatus.OCCUPIED);
+        bedRepo.save(bedInDb);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", "Ok");
+
+        return "redirect:/admin/student/" + profileId + "/details";
+    }
+
+    @RequestMapping(value = "/student/{profileId}/clear", method = RequestMethod.GET)
+    public String clearRoom(@PathVariable("profileId") Long profileId,
+                          @RequestParam(value = "all", required = false, defaultValue = "false") boolean all, Model model) {
+
+        StudentProfile profile = studentService.loadProfileById(profileId);
+        List<RoomItem> roomItemList = studentService.getStudentRoomItems(profile.getStudent().getId(), all);
+
+        model.addAttribute("profile", profile);
+        model.addAttribute("roomItems", roomItemList);
+
+        return "/admin/clearance";
     }
 }

@@ -17,7 +17,7 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">STUDENT DETAILS</h3>
+        <h3 class="box-title">CLEAR STUDENT</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -41,45 +41,6 @@
 
             </div>
             <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div class="box">
-                            <div class="box-header">
-                                <div class="box-title">
-                                    <c:choose>
-                                        <c:when test="${profile.student.bed.status == 'BOOKED'}">
-                                            <a href="/admin/occupyBed/${profile.student.bed.id}/${profile.id}" class="btn btn-primary">
-                                                ASSIGN ROOM
-                                            </a>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="${profile.student.bed.status == 'OCCUPIED'}">
-                                                    <a href="/admin/student/${profile.id}/clear" class="btn btn-success">
-                                                            CLEAR ROOM
-                                                    </a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <c:choose>
-                                                        <c:when test="${profile.student.bed.status == 'RESERVED'}">
-                                                            <a href="#" class="btn btn-primary">
-                                                                ASSIGN ROOM
-                                                            </a>
-                                                            &nbsp;&nbsp;&nbsp;
-                                                            <a href="#" class="btn btn-primary">
-                                                                AVAIL
-                                                            </a>
-                                                        </c:when>
-                                                    </c:choose>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-sm-7">
                         <h3>Room Items</h3>
@@ -112,14 +73,14 @@
                                                 <td>
                                                     <c:choose>
                                                         <c:when test="${item.clearStatus == 'ASSIGNED'}">
-                                                            <a class="btn btn-primary"
-                                                               href="/admin/student/item/${item.id}/issue/${profile.id}">Issue</a>
+                                                            <a class="btn btn-default"
+                                                               href="">Not issued</a>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <c:choose>
                                                                 <c:when test="${item.clearStatus == 'ISSUED'}">
-                                                                    <a class="btn btn-primary btn-success"
-                                                                       href="#/admin/student/item/${item.id}/clear/${profile.id}">Clear</a>
+                                                                    <a class=""
+                                                                       href="/admin/item/${item.id}/form/${profile.id}?flag=true">Clear</a>
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:otherwise>
@@ -134,11 +95,11 @@
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        <div class="box">
-                            <div class="box-body">
-                                Clearence
-                            </div>
-                        </div>
+                        <c:choose>
+                            <c:when test="${flag == true}">
+
+                            </c:when>
+                        </c:choose>
                     </div>
                 </div>
 

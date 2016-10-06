@@ -121,11 +121,6 @@ public class StudentServiceImpl implements StudentService{
     public String issueItem(Long itemId) {
         RoomItem roomItem = roomItemRepo.findOne(itemId);
 
-        int itemCount = roomItemRepo.findByStudentAndClearStatus(roomItem.getStudent().getId() ,
-                RoomItemClearStatus.ISSUED.ordinal());
-
-        logger.info(" ===== ITEMS COUNTED ++++ " + itemCount);
-
         RoomItemCost itemCost = itemCostRepo.findByItemName(roomItem.getItemName());
 
         if (itemCost.getTotalAvailable() > itemCost.getTotalIssued()){
