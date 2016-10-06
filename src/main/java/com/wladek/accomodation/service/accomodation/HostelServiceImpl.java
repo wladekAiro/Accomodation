@@ -41,7 +41,6 @@ public class HostelServiceImpl implements HostelService {
         Hostel hostelInDb = findById(hostel.getId());
         hostelInDb.setName(hostel.getName());
         hostelInDb.setCode(hostel.getCode());
-        hostelInDb.setZone(hostel.getZone());
         return hostelRepo.save(hostelInDb);
     }
 

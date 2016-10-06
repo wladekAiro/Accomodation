@@ -75,7 +75,7 @@
                                                         <a href="/admin/hostel/view/${hostel.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/hostel/edit/${hostel.id}?flag=true">Edit</a>
+                                                        <a href="/admin/hostel/edit/${hostel.id}/${zone.id}?flag=true">Edit</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -88,9 +88,40 @@
                 <div class="col-sm-3">
                     <div style="margin-top: 50px">
                         <div class="box-body">
+
+                            <c:choose>
+                                <c:when test="${flag == 'true'}">
+                                    <h3>Edit Hostel</h3>
+                                    <form:form acceptCharset="UTF-8" action="/admin/zone/updatehostel" method="post" modelAttribute="selectedHostel" cssClass="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Name of hostel" />
+                                                <form:input path="id" id="id" type="hidden"/>
+                                                <form:input path="zoneId" id="zoneId" value="${zone.id}" type="hidden"/>
+                                                <form:errors path="name" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="code" class="col-sm-3 control-label">Code</label>
+                                            <div class="col-sm-9">
+                                                <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Hostel code" />
+                                                <form:errors path="code" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-10">
+                                                <input class="btn btn-success" type="submit" value="Submit">
+                                            </div>
+                                        </div>
+                                    </form:form>
+                                </c:when>
+                                <c:otherwise>
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
                                         ADD HOSTEL
                                     </button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>

@@ -40,6 +40,16 @@
                     <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
                         <form:form acceptCharset="UTF-8" action="/admin/setDates" method="post" modelAttribute="semester" cssClass="form-horizontal" role="form">
                             <div class="form-group">
+                                <label for="semStartDate" class="col-sm-3 control-label">Semester</label>
+                                <div class="col-sm-9 date">
+                                    <div class="input-group input-append date" id="semCount">
+                                        <form:select path="semCount" cssClass="form-control">
+                                            <form:options/>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="semStartDate" class="col-sm-3 control-label">Begining</label>
                                 <div class="col-sm-9 date">
                                     <div class="input-group input-append date" id="semStartDate">

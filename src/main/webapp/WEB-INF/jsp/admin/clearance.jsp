@@ -33,6 +33,18 @@
                 <h3>ROOM # : ${profile.student.bed.number} &nbsp;&nbsp;&nbsp;<em>${profile.student.bed.status}</em></h3>
                 </p>
 
+                <div class="box-title box-pane-right">
+                    <form method="post" action="/admin/student/${profile.id}/clearRoom/${profile.student.bed.id}">
+                        <input class="btn btn-success" type="submit" value="Clear Room">
+                    </form>
+
+                    <br/>
+
+                    <form method="get" action="/admin/student/${profile.id}/details">
+                        <input class="btn btn-primary" type="submit" value="Back">
+                    </form>
+                </div>
+
                 <c:if test="${message}">
                     <div class="alert alert-success">
                             ${content}
@@ -97,7 +109,39 @@
                     <div class="col-sm-5">
                         <c:choose>
                             <c:when test="${flag == true}">
-
+                                <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+                                    <form:form acceptCharset="UTF-8" action="/admin/item/clear/${profile.id}" method="post" modelAttribute="roomItem" cssClass="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="itemName" class="col-sm-3 control-label">Item Name</label>
+                                            <div class="col-sm-9">
+                                                <form:input path="itemName" id="itemName" type="text" cssClass="form-control" placeholder="Name of hostel" readonly="true" />
+                                                <form:input path="id" id="id" type="hidden"/>
+                                                <form:errors path="itemName" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="itemCondition" class="col-sm-3 control-label">Condition</label>
+                                            <div class="col-sm-9">
+                                                <form:select path="itemCondition" cssClass="form-control">
+                                                    <form:options/>
+                                                </form:select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="clearStatus" class="col-sm-3 control-label">Status</label>
+                                            <div class="col-sm-9">
+                                                <form:select path="clearStatus" cssClass="form-control">
+                                                    <form:options/>
+                                                </form:select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-10">
+                                                <input class="btn btn-success" type="submit" value="Submit">
+                                            </div>
+                                        </div>
+                                    </form:form>
+                                </div>
                             </c:when>
                         </c:choose>
                     </div>

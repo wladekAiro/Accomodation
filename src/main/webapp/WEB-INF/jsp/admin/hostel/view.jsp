@@ -48,7 +48,7 @@
             </div>
             <div class="box-body">
                 <div class="col-sm-8">
-                            <h3>Blocks</h3>
+                            <h3>${hostel.name} Blocks</h3>
                             <div class="table-responsive">
                                 <c:choose>
                                     <c:when test="${empty hostel.blocks}">
@@ -77,7 +77,7 @@
                                                         <a href="/admin/block/view/${block.id}">View</a>
                                                     </td>
                                                     <td>
-                                                        <a href="/admin/block/delete/${block.id}">Remove</a>
+                                                        <a href="/admin/block/edit/${block.id}/${hostel.id}?flag=true">Edit</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -90,9 +90,48 @@
                 <div class="col-sm-3">
                     <div style="margin-top: 50px">
                         <div class="box-body">
+                            <c:choose>
+                                <c:when test="${flag == 'true'}">
+                                    <h3>Edit Block</h3>
+                                    <form:form acceptCharset="UTF-8" action="/admin/block/updateblock" method="post" modelAttribute="selectedBlock" cssClass="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Name of hostel" />
+                                                <form:input path="id" id="id" type="hidden"/>
+                                                <form:input path="hostelId" id="hostelId" value="${hostel.id}" type="hidden"/>
+                                                <form:errors path="name" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="code" class="col-sm-3 control-label">Code</label>
+                                            <div class="col-sm-9">
+                                                <form:input path="code" id="code" type="text" cssClass="form-control" placeholder="Hostel code" />
+                                                <form:errors path="code" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="gender" class="col-sm-3 control-label">Gender</label>
+                                            <div class="col-sm-9">
+                                                <form:select path="gender" id="roomType" type="select" cssClass="form-control">
+                                                    <form:options/>
+                                                </form:select>
+                                                <form:errors path="gender" cssClass="form-inline" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-10">
+                                                <input class="btn btn-success" type="submit" value="Submit">
+                                            </div>
+                                        </div>
+                                    </form:form>
+                                </c:when>
+                                <c:otherwise>
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
                                         ADD BLOCK
                                     </button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>

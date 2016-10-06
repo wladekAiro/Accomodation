@@ -66,8 +66,8 @@
                                                                 ASSIGN ROOM
                                                             </a>
                                                             &nbsp;&nbsp;&nbsp;
-                                                            <a href="#" class="btn btn-primary">
-                                                                AVAIL
+                                                            <a href="#" class="btn btn-danger">
+                                                                AVAIL ROOM
                                                             </a>
                                                         </c:when>
                                                     </c:choose>
@@ -134,11 +134,6 @@
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        <div class="box">
-                            <div class="box-body">
-                                Clearence
-                            </div>
-                        </div>
                     </div>
                 </div>
 

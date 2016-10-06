@@ -1,5 +1,6 @@
 package com.wladek.accomodation.domain;
 
+import com.wladek.accomodation.domain.accomodation.SemCount;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import java.util.Date;
 public class Semester extends AbstractModel {
     private Date semesterStartDate;
     private Date semesterEndDate;
+    private SemCount semCount;
     private Boolean booking = true;
     private Date offSessionBookingStartDate;
 
@@ -79,5 +81,13 @@ public class Semester extends AbstractModel {
 
     public void setOffSessionDate(String offSessionDate) {
         this.offSessionDate = offSessionDate;
+    }
+
+    public SemCount getSemCount() {
+        return semCount;
+    }
+
+    public void setSemCount(SemCount semCount) {
+        this.semCount = semCount;
     }
 }

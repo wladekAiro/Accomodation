@@ -44,7 +44,7 @@ public class BlockServiceImpl implements BlockService{
         Block blockInDb = findById(block.getId());
         blockInDb.setCode(block.getCode());
         blockInDb.setName(block.getName());
-        blockInDb.setHostel(block.getHostel());
+        blockInDb.setGender(block.getGender());
         return blockRepo.save(blockInDb);
     }
 

@@ -1,5 +1,6 @@
 package com.wladek.accomodation.service.accomodation;
 
+import com.wladek.accomodation.domain.Semester;
 import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.accomodation.Bed;
 import com.wladek.accomodation.domain.accomodation.Room;
@@ -11,6 +12,7 @@ import com.wladek.accomodation.domain.enumeration.RoomItemClearStatus;
 import com.wladek.accomodation.repository.accomodation.BedRepo;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.repository.accomodation.RoomItemRepo;
+import com.wladek.accomodation.repository.accomodation.SemesterRepo;
 import com.wladek.accomodation.service.UserDetailsImpl;
 import com.wladek.accomodation.service.UserService;
 import org.slf4j.Logger;
@@ -20,8 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by wladek on 9/22/16.
@@ -42,6 +44,10 @@ public class BedServiceImpl implements BedService {
     ItemCostRepo itemCostRepo;
     @Autowired
     RoomItemRepo roomItemRepo;
+    @Autowired
+    SemesterRepo semesterRepo;
+
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
 
     @Override
@@ -239,11 +245,87 @@ public class BedServiceImpl implements BedService {
         roomItemRepo.delete(roomItems);
     }
 
+    @Override
+    public String clearBed(Long bedId) {
+        Bed bedInDb = findOne(bedId);
+
+        List<Semester> semesters = semesterRepo.findAll();
+
+        Date currentDate = new Date();
+        Long twoWeeks = new Long(14*24*60*60*1000);
+
+        Semester currentSemester = semesters.get(0);
+
+        int weeks  = getWeeksBetween(currentDate , currentSemester.getSemesterEndDate());
+
+        logger.info(" ++++++++++++++ WEEK DIFFERENCE ++++++++++++++ " +weeks);
+
+
+        if (weeks <= 2){
+            //accept clearance
+
+            switch (currentSemester.getSemCount()) {
+                case FIRST:
+                    bedInDb.setStatus(BedStatus.RESERVED);
+                    break;
+                case SECOND:
+                    bedInDb.setStatus(BedStatus.AVAILABLE);
+                    bedInDb.setStudent(null);
+                    break;
+                case THIRD:
+                    bedInDb.setStatus(BedStatus.AVAILABLE);
+                    bedInDb.setStudent(null);
+                    break;
+                default:
+                    bedInDb.setStatus(BedStatus.AVAILABLE);
+                    bedInDb.setStudent(null);
+                    break;
+            }
+
+            bedRepo.save(bedInDb);
+
+
+            return "Cleared";
+        }else {
+            return "You cant clear now, wait until two  weeks to end of semester to clear";
+        }
+
+    }
+
     public User getCurrentUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
 
         return userService.findById(userDetails.getUser().getId());
+    }
+
+    public static int getWeeksBetween (Date a, Date b) {
+
+        if (b.before(a)) {
+            return -getWeeksBetween(b, a);
+        }
+        a = resetTime(a);
+        b = resetTime(b);
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(a);
+        int weeks = 0;
+        while (cal.getTime().before(b)) {
+            // add another week
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+            weeks++;
+        }
+        return weeks;
+    }
+
+    public static Date resetTime (Date d) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(d);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 
 }
