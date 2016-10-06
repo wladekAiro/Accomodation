@@ -36,8 +36,9 @@ public class RoomServiceImpl implements RoomService {
     public Room update(Room room) {
         Room roomInDb = findById(room.getId());
         roomInDb.setName(room.getName());
-        roomInDb.setBlock(room.getBlock());
         roomInDb.setRoomType(room.getRoomType());
+        roomInDb.setCapacity(room.getCapacity());
+        roomInDb.setCost(room.getCost());
         return roomRepo.save(roomInDb);
     }
 

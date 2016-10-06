@@ -411,11 +411,40 @@ public class AdminController {
         model.addAttribute("selectedRoom", room);
         model.addAttribute("block", block);
         model.addAttribute("roomsPage", roomsPage);
-        model.addAttribute("flaf", flag);
+        model.addAttribute("flag", flag);
         model.addAttribute("room", new Room());
         model.addAttribute("pagenatedUrl", "/admin/block/view/" + blockId);
 
         return "/admin/block/view";
+    }
+
+    @RequestMapping(value = "/room/updateroom", method = RequestMethod.POST)
+    public String updateRoom(@ModelAttribute @Valid Room room, BindingResult result,
+                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                             @RequestParam(value = "size", required = false, defaultValue = "15") int size, RedirectAttributes redirectAttributes,
+                             Model model) {
+
+        if (result.hasErrors()) {
+            Block block = blockService.findById(room.getBlockId());
+            Page<Room> roomsPage = blockService.findRooms(room.getBlockId(), page, size);
+            model.addAttribute("block", block);
+            model.addAttribute("roomsPage", roomsPage);
+            model.addAttribute("room", room);
+            model.addAttribute("pagenatedUrl", "/admin/block/view/" + room.getBlockId());
+
+            model.addAttribute("message", true);
+            model.addAttribute("content", "Form has errors");
+
+            return "/admin/block/view";
+
+        }
+
+        Room newRoom = roomService.update(room);
+
+        redirectAttributes.addFlashAttribute("message", true);
+        redirectAttributes.addFlashAttribute("content", "Room " + newRoom.getName() + " updated");
+
+        return "redirect:/admin/block/view/" + room.getBlockId() + "?page=" + page + "&size=" + size;
     }
 
     @RequestMapping(value = "/room/createbed", method = RequestMethod.POST)
