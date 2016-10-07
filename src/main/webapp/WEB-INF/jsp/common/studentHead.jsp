@@ -313,6 +313,14 @@
                     <li>
                         <a href="/student/room/details/${principal.user.id}"><i class="fa fa-files-o"></i> <span>My room</span></a>
                     </li>
+
+                    <li>
+                        <a href="/student/room/transfer/${principal.user.id}"><i class="fa fa-files-o"></i> <span>Room Transfer</span></a>
+                    </li>
+
+                    <li>
+                        <a href="# /student/non-resident/${principal.user.id}"><i class="fa fa-files-o"></i> <span>Non Resident form</span></a>
+                    </li>
                 </sec:authorize>
             </ul>
         </section>

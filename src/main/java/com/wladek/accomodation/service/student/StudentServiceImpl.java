@@ -3,11 +3,13 @@ package com.wladek.accomodation.service.student;
 import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.accomodation.RoomItem;
 import com.wladek.accomodation.domain.accomodation.RoomItemCost;
+import com.wladek.accomodation.domain.accomodation.RoomTransfer;
 import com.wladek.accomodation.domain.accomodation.StudentProfile;
 import com.wladek.accomodation.domain.enumeration.RoomItemClearStatus;
 import com.wladek.accomodation.repository.accomodation.ItemCostRepo;
 import com.wladek.accomodation.repository.accomodation.ProfileRepo;
 import com.wladek.accomodation.repository.accomodation.RoomItemRepo;
+import com.wladek.accomodation.repository.accomodation.RoomTransferRepo;
 import com.wladek.accomodation.service.UserDetailsImpl;
 import com.wladek.accomodation.service.UserService;
 import org.slf4j.Logger;
@@ -36,6 +38,8 @@ public class StudentServiceImpl implements StudentService{
     RoomItemRepo roomItemRepo;
     @Autowired
     ItemCostRepo itemCostRepo;
+    @Autowired
+    RoomTransferRepo transferRepo;
 
     Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
@@ -138,6 +142,13 @@ public class StudentServiceImpl implements StudentService{
         }
 
         return "No "+roomItem.getItemName() +" available in stock";
+    }
+
+    @Override
+    public RoomTransfer makeRequest(RoomTransfer roomTransfer) {
+        StudentProfile studentProfile = profileRepo.findOne(roomTransfer.getProfileId());
+        roomTransfer.setProfile(studentProfile);
+        return transferRepo.save(roomTransfer);
     }
 
 

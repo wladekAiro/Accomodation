@@ -85,15 +85,40 @@
                                                         <c:when test="${bed.status == 'BOOKED'}">
                                                             <c:choose>
                                                                 <c:when test="${bed.myBed(principal.user.id)}">
-                                                                    <a class="btn-sm btn-primary btn-danger"
+                                                                    <a class="btn-sm btn-primary btn-foursquare"
                                                                        href="/student/room/details/${principal.user.id}/cancel">
                                                                         Cancel Booking</a>
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <a class="btn-sm btn-primary"
-                                                               href="/student/room/bed/${bed.id}?flag=true">Book</a>
+                                                            <c:choose>
+                                                                <c:when test="${bed.status == 'OCCUPIED'}">
+                                                                    <c:choose>
+                                                                        <c:when test="${bed.myBed(principal.user.id)}">
+                                                                            <a class="btn-sm btn-primary btn-foursquare"
+                                                                               href="/student/room/details/${principal.user.id}/cancel">
+                                                                                Request Transfer</a>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <c:choose>
+                                                                        <c:when test="${bed.status == 'RESERVED'}">
+                                                                            <c:choose>
+                                                                                <c:when test="${bed.myBed(principal.user.id)}">
+                                                                                    <a class="btn-sm btn-primary"
+                                                                                       href="/student/room/bed/${bed.id}?flag=true">Book</a>
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a class="btn-sm btn-primary"
+                                                                               href="/student/room/bed/${bed.id}?flag=true">Book</a>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </sec:authorize>

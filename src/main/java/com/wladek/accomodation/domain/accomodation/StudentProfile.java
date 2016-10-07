@@ -5,9 +5,9 @@ import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.enumeration.Gender;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by wladek on 9/22/16.
@@ -28,6 +28,8 @@ public class StudentProfile extends AbstractModel {
     private String phoneNumber;
     @OneToOne
     private User student;
+    @OneToMany(mappedBy = "profile" , cascade = {CascadeType.REMOVE, CascadeType.PERSIST} , fetch = FetchType.LAZY)
+    private List<RoomTransfer> roomTransfers;
 
     public String getStudentRegNo() {
         return studentRegNo;
@@ -83,5 +85,13 @@ public class StudentProfile extends AbstractModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<RoomTransfer> getRoomTransfers() {
+        return roomTransfers;
+    }
+
+    public void setRoomTransfers(List<RoomTransfer> roomTransfers) {
+        this.roomTransfers = roomTransfers;
     }
 }

@@ -2,6 +2,7 @@ package com.wladek.accomodation.service.student;
 
 import com.wladek.accomodation.domain.User;
 import com.wladek.accomodation.domain.accomodation.RoomItem;
+import com.wladek.accomodation.domain.accomodation.RoomTransfer;
 import com.wladek.accomodation.domain.accomodation.StudentProfile;
 import org.springframework.data.domain.Page;
 
@@ -19,4 +20,5 @@ public interface StudentService {
     public StudentProfile loadProfileById(Long profileId);
     public List<RoomItem> getStudentRoomItems(Long userId , boolean getAll);
     public String issueItem(Long itemId);
+    public RoomTransfer makeRequest(RoomTransfer roomTransfer);
 }

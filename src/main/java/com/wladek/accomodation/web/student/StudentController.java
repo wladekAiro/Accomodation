@@ -2,6 +2,7 @@ package com.wladek.accomodation.web.student;
 
 import com.wladek.accomodation.domain.accomodation.*;
 import com.wladek.accomodation.domain.enumeration.BedStatus;
+import com.wladek.accomodation.repository.accomodation.RoomTransferRepo;
 import com.wladek.accomodation.service.UserDetailsImpl;
 import com.wladek.accomodation.service.accomodation.BedService;
 import com.wladek.accomodation.service.accomodation.BlockService;
@@ -204,6 +205,38 @@ public class StudentController {
         redirectAttributes.addFlashAttribute("content" , "Booking canceled");
 
         return "redirect:/student/room/details/"+studentId;
+    }
+
+    @RequestMapping(value = "/room/transfer/{studentId}" , method = RequestMethod.GET)
+    public String requestRoomTransfer(@PathVariable("studentId") Long studentId, Model model){
+
+        StudentProfile studentProfile = studentService.loadProfile(studentId);
+        model.addAttribute("profile" , studentProfile);
+        model.addAttribute("transfer" , new RoomTransfer());
+
+        return "/student/hostel/roomTransfer";
+    }
+
+    @RequestMapping(value = "/submittransfer/{profileId}" , method = RequestMethod.POST)
+    public String submitTransfer(@ModelAttribute @Valid RoomTransfer roomTransfer ,BindingResult result,
+                                 @PathVariable("profileId") Long studentId, RedirectAttributes redirectAttributes,
+                                 Model model){
+
+        StudentProfile studentProfile = studentService.loadProfile(studentId);
+
+        if (result.hasErrors()){
+            model.addAttribute("profile" , studentProfile);
+            model.addAttribute("transfer" , new RoomTransfer());
+
+            return "/student/hostel/roomTransfer";
+        }
+
+        RoomTransfer madeRequest = studentService.makeRequest(roomTransfer);
+
+        redirectAttributes.addFlashAttribute("message" , true);
+        redirectAttributes.addFlashAttribute("content" , "Request submitted");
+
+        return "redirect:/student/room/transfer/"+studentProfile.getStudent().getId();
     }
 
     public StudentProfile checkProfile(Long userId){
