@@ -24,6 +24,8 @@ public class StudentProfile extends AbstractModel {
     private String course;
     @NotNull(message = "Provide gender")
     private Gender gender;
+    @NotNull(message = "Provide phone number")
+    private String phoneNumber;
     @OneToOne
     private User student;
 
@@ -73,5 +75,13 @@ public class StudentProfile extends AbstractModel {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

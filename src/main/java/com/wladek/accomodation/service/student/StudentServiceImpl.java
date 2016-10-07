@@ -74,7 +74,7 @@ public class StudentServiceImpl implements StudentService{
             profile.setCourse(studentProfile.getCourse());
             profile.setDepartment(studentProfile.getDepartment());
             profile.setStudentRegNo(studentProfile.getStudentRegNo());
-            profile.setStudent(student);
+            profile.setPhoneNumber(studentProfile.getPhoneNumber());
         }
 
         return profileRepo.save(profile);

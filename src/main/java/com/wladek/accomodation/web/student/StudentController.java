@@ -74,7 +74,7 @@ public class StudentController {
         redirectAttributes.addFlashAttribute("message" , true);
         redirectAttributes.addFlashAttribute("content" , "Profile created");
 
-        return "redirect:/student/profile";
+        return "redirect:/student/profile/"+profile.getId();
     }
 
     @RequestMapping(value = "/profile/updateProfile" , method = RequestMethod.POST)
@@ -103,9 +103,15 @@ public class StudentController {
     public String viewHostels(@RequestParam(value = "searchTerm" , required = false ,defaultValue = "null") String searchTerm,
                               Model model){
 
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        StudentProfile profile = studentService.loadProfile(userDetails.getUser().getId());
+
         List<Hostel> hostelList = hostelService.findAll();
 
         model.addAttribute("hostelList" , hostelList);
+        model.addAttribute("profile" , profile);
 
         return "/student/hostel/list";
     }
@@ -167,7 +173,11 @@ public class StudentController {
     public String studentRoom(@PathVariable("studentId") Long studentId,@RequestParam(value = "all" ,
             required = false , defaultValue = "false") boolean getAll , Model model){
 
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
         Bed bed = bedService.getStudentBed(studentId);
+        StudentProfile profile = studentService.loadProfile(userDetails.getUser().getId());
 
         Room room = null;
 
@@ -178,6 +188,7 @@ public class StudentController {
         List<RoomItem> roomItems = bedService.getStudentRoomItems(getAll);
 
         model.addAttribute("room" , room);
+        model.addAttribute("profile" , profile);
         model.addAttribute("bed" , bed);
         model.addAttribute("roomItems" , roomItems);
 

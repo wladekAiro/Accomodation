@@ -129,11 +129,19 @@
                     <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
                         <form:form acceptCharset="UTF-8" action="${url}" method="post" modelAttribute="studentProfile" cssClass="form-horizontal" role="form">
                             <div class="form-group">
-                                <label for="studentRegNo" class="col-sm-3 control-label">Number</label>
+                                <label for="studentRegNo" class="col-sm-3 control-label">Reg No</label>
                                 <div class="col-sm-9">
                                     <form:input path="studentRegNo" id="studentRegNo" type="text" cssClass="form-control" placeholder="Registration number" />
                                     <form:input path="id" id="id" type="hidden"/>
                                     <form:errors path="studentRegNo" cssClass="form-inline" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentRegNo" class="col-sm-3 control-label">Phone No</label>
+                                <div class="col-sm-9">
+                                    <form:input path="phoneNumber" id="phoneNumber" type="text" cssClass="form-control" placeholder="Phone number" />
+                                    <form:input path="id" id="id" type="hidden"/>
+                                    <form:errors path="phoneNumber" cssClass="form-inline" />
                                 </div>
                             </div>
                             <div class="form-group">

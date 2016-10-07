@@ -67,7 +67,6 @@
                                                 <th>Beds</th>
                                                 <th>Status</th>
                                                 <th></th>
-                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -90,9 +89,7 @@
                                                                     style="background-color: red"
                                                                 </c:when>
                                                             </c:choose>
-                                                            >${room.status(room.beds,room.capacity)}</td>
-                                                    <td>
-                                                        <a href="/student/room/${room.id}">View</a>
+                                                            >${room.status(room.beds,room.capacity)}
                                                     </td>
                                                     <td
                                                             <c:choose>

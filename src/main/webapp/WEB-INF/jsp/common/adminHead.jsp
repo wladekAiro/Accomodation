@@ -311,6 +311,9 @@
             <li>
                 <a href="/admin/student/list"><i class="fa fa-files-o"></i> <span>Students</span></a>
             </li>
+            <li>
+                <a href="/admin/reports"><i class="fa fa-files-o"></i> <span>Reports</span></a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
